@@ -4,7 +4,7 @@
 
 ### Version
 
-Static output frequency (40 kHz).
+Variable output frequency.
 To be used with __Shield v1.0__.
 
 ### Usage
