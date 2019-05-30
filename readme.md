@@ -5,7 +5,7 @@
 ### Version
 
 Static output frequency (40 kHz).
-To be used with __Shield v1.0__.
+To be used with __Shield v1.1__.
 
 ### Usage
 

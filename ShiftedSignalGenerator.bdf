@@ -57,7 +57,7 @@ applicable agreement for further details.
 	(input)
 	(rect 8 448 176 464)
 	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
-	(text "GPIO_0_IN[1]" (rect 5 0 75 11)(font "Arial" ))
+	(text "GPIO_0_IN[0]" (rect 5 0 75 11)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -123,9 +123,9 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 2232 368 4221 384)
+	(rect 2232 368 4227 384)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "GPIO_0_0,GPIO_0_1,GPIO_0_3,GPIO_0_5,GPIO_0_7,GPIO_0_9,GPIO_0_11,GPIO_0_13,GPIO_0_15,GPIO_0_17,GPIO_0_19,GPIO_0_21,GPIO_0_23,GPIO_0_25,GPIO_0_27,GPIO_0_29,GPIO_0_32,GPIO_0_30,GPIO_0_28,GPIO_0_26,GPIO_0_24,GPIO_0_22,GPIO_0_20,GPIO_0_18,GPIO_0_16,GPIO_0_14,GPIO_0_12,GPIO_0_10,GPIO_0_8,GPIO_0_6,GPIO_0_4,GPIO_0_2" (rect 90 0 1983 11)(font "Arial" ))
+	(text "GPIO_0_1,GPIO_0_3,GPIO_0_5,GPIO_0_7,GPIO_0_9,GPIO_0_11,GPIO_0_13,GPIO_0_15,GPIO_0_17,GPIO_0_19,GPIO_0_21,GPIO_0_23,GPIO_0_25,GPIO_0_27,GPIO_0_29,GPIO_0_31,GPIO_0_32,GPIO_0_30,GPIO_0_28,GPIO_0_26,GPIO_0_24,GPIO_0_22,GPIO_0_20,GPIO_0_18,GPIO_0_16,GPIO_0_14,GPIO_0_12,GPIO_0_10,GPIO_0_8,GPIO_0_6,GPIO_0_4,GPIO_0_2" (rect 90 0 1989 11)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -140,9 +140,9 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 2240 424 4229 440)
+	(rect 2240 424 4235 440)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "GPIO_1_0,GPIO_1_1,GPIO_1_3,GPIO_1_5,GPIO_1_7,GPIO_1_9,GPIO_1_11,GPIO_1_13,GPIO_1_15,GPIO_1_17,GPIO_1_19,GPIO_1_21,GPIO_1_23,GPIO_1_25,GPIO_1_27,GPIO_1_29,GPIO_1_32,GPIO_1_30,GPIO_1_28,GPIO_1_26,GPIO_1_24,GPIO_1_22,GPIO_1_20,GPIO_1_18,GPIO_1_16,GPIO_1_14,GPIO_1_12,GPIO_1_10,GPIO_1_8,GPIO_1_6,GPIO_1_4,GPIO_1_2" (rect 90 0 1983 11)(font "Arial" ))
+	(text "GPIO_1_1,GPIO_1_3,GPIO_1_5,GPIO_1_7,GPIO_1_9,GPIO_1_11,GPIO_1_13,GPIO_1_15,GPIO_1_17,GPIO_1_19,GPIO_1_21,GPIO_1_23,GPIO_1_25,GPIO_1_27,GPIO_1_29,GPIO_1_31,GPIO_1_32,GPIO_1_30,GPIO_1_28,GPIO_1_26,GPIO_1_24,GPIO_1_22,GPIO_1_20,GPIO_1_18,GPIO_1_16,GPIO_1_14,GPIO_1_12,GPIO_1_10,GPIO_1_8,GPIO_1_6,GPIO_1_4,GPIO_1_2" (rect 90 0 1989 11)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
