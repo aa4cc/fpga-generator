@@ -1,6 +1,6 @@
 # FPGA Generator of phase-shifted digital signals
 
-This folder contains a Quartus project implementing a generator of phase-shifted signals. The generator has multiple output channels. The duty cycle of each channel, as well as the relative phase shift between channels can be set. In addition, the frequency (which is shared by all channels) can be changed. 
+This folder contains a Quartus project implementing a multi-channel generator of phase-shifted signals. The duty cycle of each channel, as well as the relative phase shift between channels can be set. In addition, the frequency (which is shared by all channels) can be changed. 
 
 
 ## Features
@@ -125,7 +125,7 @@ After generating the scanchain by the means described above, split it into bytes
 
 Let's assume that we wish to configure the output signals according to the following table:
 
-Variable | Value [°]
+Variable | Value [ï¿½]
 ---     | ---
 Channel 0 duty | 180
 Channel 0 phase | 90
