@@ -72,9 +72,9 @@ applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect 1696 -64 1864 -48)
+	(rect 1896 -64 2064 -48)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "GPIO_20" (rect 5 0 50 12)(font "Arial" ))
+	(text "GPIO_2_IN_0" (rect 5 0 73 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -85,12 +85,13 @@ applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 1840 -48 1896 -32))
 )
 (pin
 	(input)
-	(rect 1696 -8 1864 8)
+	(rect 1896 -8 2064 8)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "GPIO_24" (rect 5 0 50 12)(font "Arial" ))
+	(text "GPIO_2_IN_2" (rect 5 0 73 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -101,6 +102,7 @@ applicable agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+	(annotation_block (location)(rect 1832 8 1896 24))
 )
 (pin
 	(output)
@@ -172,9 +174,9 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 1512 -64 1688 -48)
+	(rect 1512 -40 1688 -24)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "GPIO_21" (rect 90 0 134 12)(font "Arial" ))
+	(text "GPIO_2_3" (rect 90 0 140 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -185,12 +187,13 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect 1688 -24 1744 -8))
 )
 (pin
 	(output)
-	(rect 1512 -40 1688 -24)
+	(rect 1512 -64 1688 -48)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "GPIO_23" (rect 90 0 134 12)(font "Arial" ))
+	(text "GPIO_2_2" (rect 90 0 140 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -201,12 +204,13 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect 1688 -48 1744 -32))
 )
 (pin
 	(output)
 	(rect 1512 -8 1688 8)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "GPIO_25" (rect 90 0 134 12)(font "Arial" ))
+	(text "GPIO_2_4" (rect 90 0 140 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -217,12 +221,13 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect 1688 8 1744 24))
 )
 (pin
 	(output)
 	(rect 1512 16 1688 32)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
-	(text "GPIO_27" (rect 90 0 134 12)(font "Arial" ))
+	(text "GPIO_2_5" (rect 90 0 140 12)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -233,6 +238,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect 1688 32 1744 48))
 )
 (symbol
 	(rect 368 408 560 552)
@@ -993,28 +999,28 @@ applicable agreement for further details.
 	(pt 1840 408)
 )
 (connector
-	(pt 1944 344)
 	(pt 1816 344)
-)
-(connector
-	(pt 1944 344)
-	(pt 1944 -56)
-)
-(connector
-	(pt 1864 -56)
-	(pt 1944 -56)
+	(pt 2088 344)
 )
 (connector
 	(pt 1840 328)
-	(pt 1928 328)
+	(pt 2072 328)
 )
 (connector
-	(pt 1928 328)
-	(pt 1928 0)
+	(pt 2088 344)
+	(pt 2088 -56)
 )
 (connector
-	(pt 1928 0)
-	(pt 1864 0)
+	(pt 2088 -56)
+	(pt 2064 -56)
+)
+(connector
+	(pt 2072 328)
+	(pt 2072 0)
+)
+(connector
+	(pt 2072 0)
+	(pt 2064 0)
 )
 (junction (pt 272 440))
 (junction (pt 272 328))
