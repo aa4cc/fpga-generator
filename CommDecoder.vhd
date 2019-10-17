@@ -49,6 +49,11 @@ signal selectorSig : std_logic := '0';
 signal clkenaSig : std_logic := '0';
 signal configSig : std_logic := '0';
 
+
+signal chan_stop_presig : std_logic := '0';
+
+
+
 begin
 
 debug <= byteToBePassed;
@@ -151,12 +156,42 @@ pll_scanclkena <= clkenaSig;
 
   begin
   if rising_edge(CLK) then
-		chan_stop <= deelayVectorChanStop(15);
+		chan_stop_presig <= deelayVectorChanStop(15);
 		pll_configupdate <= deelayVectorPllStop(15);
 		deelayVectorChanStop := deelayVectorChanStop(14 downto 0) & recCodeChanStop;
 		deelayVectorPllStop := deelayVectorPllStop(14 downto 0) & recCodePllStop;
   end if;
   end process deelay;
+  
+  
+  
+  longerOut : process(CLK) is
+  
+  variable counter : integer range 0 to 250 := 0;
+
+  begin
+  if rising_edge(CLK) then
+		
+		--chan_stop : <= deelayVectorChanStop(15);
+		
+		if counter > 0 then
+			counter := counter - 1;
+			chan_stop <= '1';
+		elsif chan_stop_presig = '1' then
+			counter := 30;
+			chan_stop <= '1';
+		else 
+			chan_stop <= '0';
+		end if;
+		
+		
+		
+  end if;
+  end process longerOut;
+  
+  
+  
+  
   
   
  passByte : process(CLK) is

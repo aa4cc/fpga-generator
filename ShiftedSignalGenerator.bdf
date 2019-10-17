@@ -74,7 +74,7 @@ applicable agreement for further details.
 	(input)
 	(rect 1400 272 1576 288)
 	(text "INPUT" (rect 133 0 161 10)(font "Arial" (font_size 6)))
-	(text "GPIO_2_IN_0" (rect 5 0 74 12)(font "Arial" ))
+	(text "GPIO_2_IN_0" (rect 5 0 73 12)(font "Arial" ))
 	(pt 176 8)
 	(drawing
 		(line (pt 92 12)(pt 117 12))
@@ -747,7 +747,7 @@ applicable agreement for further details.
 		(pt 176 48)
 		(output)
 		(text "sig_use" (rect 0 0 37 12)(font "Arial" ))
-		(text "sig_use" (rect 124 43 155 55)(font "Arial" ))
+		(text "sig_use" (rect 124 43 161 55)(font "Arial" ))
 		(line (pt 176 48)(pt 160 48))
 	)
 	(port
@@ -783,7 +783,7 @@ applicable agreement for further details.
 		(pt 176 48)
 		(output)
 		(text "sig_use" (rect 0 0 37 12)(font "Arial" ))
-		(text "sig_use" (rect 124 43 155 55)(font "Arial" ))
+		(text "sig_use" (rect 124 43 161 55)(font "Arial" ))
 		(line (pt 176 48)(pt 160 48))
 	)
 	(port

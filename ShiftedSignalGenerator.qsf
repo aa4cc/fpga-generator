@@ -364,10 +364,8 @@ set_global_assignment -name IOBANK_VCCIO 2.5V -section_id 6
 set_location_assignment PIN_B16 -to GPIO_2_1
 set_global_assignment -name VHDL_FILE tristate_test.vhd
 set_global_assignment -name VHDL_FILE output_files/clk_freq_interface.vhdl
-set_global_assignment -name VHDL_FILE clk_freq_interface.vhdl
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_3
 set_instance_assignment -name OUTPUT_TERMINATION OFF -to GPIO_2_IN_0
-set_global_assignment -name VHDL_FILE bidir_interface.vhd
 set_global_assignment -name VHDL_FILE bidir_interface1.vhd
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_12
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_1
