@@ -155,78 +155,22 @@ applicable agreement for further details.
 	)
 	(annotation_block (location)(rect 2480 432 2544 448))
 )
-(symbol
-	(rect 368 408 560 552)
-	(text "uart_rx" (rect 5 0 39 12)(font "Arial" ))
-	(text "inst" (rect 8 128 25 140)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "clock" (rect 0 0 25 12)(font "Arial" ))
-		(text "clock" (rect 21 27 46 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "rxd" (rect 0 0 15 12)(font "Arial" ))
-		(text "rxd" (rect 21 43 36 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 192 32)
-		(output)
-		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
-		(text "data[data_bits-1..0]" (rect 91 27 186 39)(font "Arial" ))
-		(line (pt 192 32)(pt 176 32)(line_width 3))
-	)
-	(port
-		(pt 192 48)
-		(output)
-		(text "send" (rect 0 0 23 12)(font "Arial" ))
-		(text "send" (rect 152 43 175 55)(font "Arial" ))
-		(line (pt 192 48)(pt 176 48))
-	)
-	(port
-		(pt 192 64)
-		(output)
-		(text "fe" (rect 0 0 10 12)(font "Arial" ))
-		(text "fe" (rect 163 59 173 71)(font "Arial" ))
-		(line (pt 192 64)(pt 176 64))
-	)
-	(port
-		(pt 192 80)
-		(output)
-		(text "data_out" (rect 0 0 42 12)(font "Arial" ))
-		(text "data_out" (rect 136 75 178 87)(font "Arial" ))
-		(line (pt 192 80)(pt 176 80))
-	)
-	(port
-		(pt 192 96)
-		(output)
-		(text "data_out_clk" (rect 0 0 62 12)(font "Arial" ))
-		(text "data_out_clk" (rect 119 91 181 103)(font "Arial" ))
-		(line (pt 192 96)(pt 176 96))
-	)
-	(parameter
-		"DATA_BITS"
-		"8"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"UART_BAUD_RATE"
-		"230400"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"TARGET_MCLK"
-		"50000000"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
+(pin
+	(output)
+	(rect 208 624 384 640)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "GPIO_2_12" (rect 90 0 146 12)(font "Arial" ))
+	(pt 0 8)
 	(drawing
-		(rectangle (rect 16 16 176 128))
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (parameter)(rect 304 344 544 400))
+	(annotation_block (location)(rect 384 640 440 656))
 )
 (symbol
 	(rect 1136 392 1280 472)
@@ -619,6 +563,79 @@ applicable agreement for further details.
 		(line (pt 311 112)(pt 239 112))
 	)
 )
+(symbol
+	(rect 368 408 560 552)
+	(text "uart_rx" (rect 5 0 39 12)(font "Arial" ))
+	(text "inst" (rect 8 128 25 140)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clock" (rect 0 0 25 12)(font "Arial" ))
+		(text "clock" (rect 21 27 46 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "rxd" (rect 0 0 15 12)(font "Arial" ))
+		(text "rxd" (rect 21 43 36 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 192 32)
+		(output)
+		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
+		(text "data[data_bits-1..0]" (rect 91 27 186 39)(font "Arial" ))
+		(line (pt 192 32)(pt 176 32)(line_width 3))
+	)
+	(port
+		(pt 192 48)
+		(output)
+		(text "send" (rect 0 0 23 12)(font "Arial" ))
+		(text "send" (rect 152 43 175 55)(font "Arial" ))
+		(line (pt 192 48)(pt 176 48))
+	)
+	(port
+		(pt 192 64)
+		(output)
+		(text "fe" (rect 0 0 10 12)(font "Arial" ))
+		(text "fe" (rect 163 59 173 71)(font "Arial" ))
+		(line (pt 192 64)(pt 176 64))
+	)
+	(port
+		(pt 192 80)
+		(output)
+		(text "data_out" (rect 0 0 42 12)(font "Arial" ))
+		(text "data_out" (rect 136 75 178 87)(font "Arial" ))
+		(line (pt 192 80)(pt 176 80))
+	)
+	(port
+		(pt 192 96)
+		(output)
+		(text "data_out_clk" (rect 0 0 62 12)(font "Arial" ))
+		(text "data_out_clk" (rect 119 91 181 103)(font "Arial" ))
+		(line (pt 192 96)(pt 176 96))
+	)
+	(parameter
+		"DATA_BITS"
+		"8"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"UART_BAUD_RATE"
+		"115200"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"TARGET_MCLK"
+		"50000000"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 176 128))
+	)
+	(annotation_block (parameter)(rect 304 336 543 392))
+)
 (connector
 	(pt 368 440)
 	(pt 272 440)
@@ -874,10 +891,6 @@ applicable agreement for further details.
 	(pt 576 328)
 )
 (connector
-	(pt 176 456)
-	(pt 368 456)
-)
-(connector
 	(text "arrout[63..32]" (rect 2152 360 2218 372)(font "Arial" ))
 	(pt 2128 376)
 	(pt 2232 376)
@@ -889,8 +902,25 @@ applicable agreement for further details.
 	(pt 2240 432)
 	(bus)
 )
+(connector
+	(pt 208 632)
+	(pt 192 632)
+)
+(connector
+	(pt 192 632)
+	(pt 192 456)
+)
+(connector
+	(pt 176 456)
+	(pt 192 456)
+)
+(connector
+	(pt 192 456)
+	(pt 368 456)
+)
 (junction (pt 272 440))
 (junction (pt 272 328))
 (junction (pt 1808 520))
 (junction (pt 1304 -24))
 (junction (pt 2096 536))
+(junction (pt 192 456))

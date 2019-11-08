@@ -6,7 +6,7 @@ use ieee.std_logic_unsigned.all;
 entity uart_rx is
 generic ( -- definujeme interni entitu, neni jiz potreba definovat polaritu signalu, vse je aktivni v 1
 DATA_BITS : integer := 8;
-UART_BAUD_RATE : integer := 230400;
+UART_BAUD_RATE : integer := 115200;
 TARGET_MCLK : integer := 50000000);
 port (
      clock : in std_logic; 
