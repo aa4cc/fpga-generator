@@ -2,6 +2,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all; 
 USE ieee.numeric_std.all;
+USE ieee.std_logic_unsigned.all;
 
 ENTITY ComDecoder IS 
 	PORT
@@ -49,9 +50,16 @@ signal selectorSig : std_logic := '0';
 signal clkenaSig : std_logic := '0';
 signal configSig : std_logic := '0';
 
+
+signal controlSum : std_logic_vector(23 downto 0) := (others => '0');
+signal controlSumClear : std_logic := '1';
+
+signal debugSig : std_logic_vector(7 downto 0) := "11111111";
+
+
 begin
 
-debug <= byteToBePassed;
+debug <= controlSum(7 downto 0);
 bit_out_shift <= bitOutShiftSig and numberEnabled;
 
 selector <= selectorSig;
@@ -62,46 +70,56 @@ pll_scanclkena <= clkenaSig;
  decode : process(CLK) is
  --scan incoming bytes for codes
   variable lastValid : std_logic := '0';
-  variable varCode : std_logic_vector(23 downto 0) := "010011110000100000000000";
+  variable varCode : std_logic_vector(23 downto 0) := (others => '0');
   
   variable byteIsNotCode : std_logic := '0';
   variable byteIsNotCodeDeelayed : std_logic := '0';
   variable numberEnabledVar : std_logic := '0';
   
+  
+  variable lastPassed : std_logic_vector(7 downto 0) := (others => '0');
+  
   variable configCountdown : integer range -2 to 13 := -2;
+  
+  variable blockSummation : integer range -2 to 13 := 0;
+  
+  constant ZERO : std_logic_vector(15 downto 0) := (others => '0');
+  
+  
   
   begin
   
   if rising_edge(CLK) then
-  --THIS FUCKS UP COMMNUNICATION LOOK INTO
---		if configCountdown > 0 then
---			configCountdown := configCountdown - 1;
---		elsif configCountdown = 0 then
---			configCountdown := -1;
---			configSig <= '1';
---		elsif configCountdown = -1 then
---			configCountdown := -2;
---			configSig <= '0';
+  
+  
+		
 		configSig <= '0';
 		clkenaSig <= '1';
 		if byte_in_valid = '1' and lastValid = '0' then
 			byteToBePassed <= varCode(23 downto 16); --shift last out
-			varCode := varCode(15 downto 0) & byte_in;
+			
+			lastPassed := varCode(23 downto 16);
+			
 			byteIsNotCode := '1';
 			
 			numberEnabled <= numberEnabledVar;
 			
 			
+			varCode := varCode(15 downto 0) & byte_in; --shift new one in
+			
 			if varCode = CODE_CHANNELS_START then
 				numberEnabledVar := '1';
 				byteIsNotCode := '0';	
 				selectorSig <= '0';
+				blockSummation := 3;
+				
 			end if;
 			
 			if varCode = CODE_CHANNELS_STOP then
 				recCodeChanStop <= '1';
 				numberEnabledVar := '0';
 				byteIsNotCode := '0';
+				blockSummation := 3;
 			else
 				recCodeChanStop <= '0';
 			end if;
@@ -110,12 +128,14 @@ pll_scanclkena <= clkenaSig;
 				numberEnabledVar := '1';
 				byteIsNotCode := '0';
 				selectorSig <= '1';
+				blockSummation := 3;
 			end if;
 			
 			if varCode = CODE_PLL_STOP then
 				recCodePllStop <= '1';
 				numberEnabledVar := '0';
 				byteIsNotCode := '0';
+				blockSummation := 3;
 			else
 				recCodePllStop <= '0';
 			end if;
@@ -130,6 +150,38 @@ pll_scanclkena <= clkenaSig;
 			end if;
 			
 			byteIsNotCodeDeelayed := byteIsNotCode;
+			
+			
+			
+--			if numberEnabledVar = '1' and (not (varCode = CODE_CHANNELS_START or varCode = CODE_CHANNELS_STOP) ) then
+--				controlSum(7 downto 0) <= controlSum(7 downto 0) + varCode(23 downto 16);
+--			end if;
+-- works, kinda, puts too code as well
+	
+	
+			if (varCode = CODE_CHANNELS_START) then
+				controlSum(7 downto 0) <= (others => '0');
+			end if;
+				
+				
+			if numberEnabledVar = '1' and blockSummation = 0 then
+				controlSum <= controlSum + varCode(23 downto 16);
+			end if;
+			
+			if blockSummation > 0 then
+				blockSummation := blockSummation - 1;
+			end if;
+
+			
+--			
+--			if varCode = CODE_CHANNELS_START then
+--				controlSum <= (others => '0');
+--			elsif varCode /= CODE_CHANNELS_STOP then
+--				controlSum(7 downto 0) <= varCode(23 downto 16);
+--			end if;
+
+			
+			
 			
 		
 		else
@@ -172,7 +224,11 @@ pll_scanclkena <= clkenaSig;
   
   if rising_edge(CLK) then
   
-  
+ 
+		
+		
+		
+		
 		if passByteOn = '1' and lastPass = '0' then
 			
 			if latchedBlock = 0 then
@@ -184,6 +240,7 @@ pll_scanclkena <= clkenaSig;
 			else
 				bitCounter := 8;
 				latchedByte := byteToBePassed;
+				debugSig <= debugSig + byteToBePassed;
 			end if;
 		end if;
 		
