@@ -17,6 +17,7 @@ ENTITY ComDecoder IS
 		pll_scanclkena : out std_logic;
 		pll_configupdate : out std_logic;
 		chan_stop  : out std_logic;
+		chan_configupdate : out std_logic;
 		debug :	out std_logic_vector(7 downto 0)
 		
 	);
@@ -42,8 +43,7 @@ signal bitOutShiftSig : std_logic := '0';
 
 signal recCodeChanStop : std_logic := '0';
 signal recCodePllStop : std_logic := '0';
-
-
+signal recSumOk : std_logic := '0';
 
 signal selectorSig : std_logic := '0';
 
@@ -51,15 +51,13 @@ signal clkenaSig : std_logic := '0';
 signal configSig : std_logic := '0';
 
 
-signal controlSum : std_logic_vector(23 downto 0) := (others => '0');
-signal controlSumClear : std_logic := '1';
 
-signal debugSig : std_logic_vector(7 downto 0) := "11111111";
+signal debugSig : std_logic_vector(7 downto 0) := "00000000";
 
 
 begin
 
-debug <= controlSum(7 downto 0);
+debug <= debugSig(7 downto 0);
 bit_out_shift <= bitOutShiftSig and numberEnabled;
 
 selector <= selectorSig;
@@ -83,110 +81,142 @@ pll_scanclkena <= clkenaSig;
   
   variable blockSummation : integer range -2 to 13 := 0;
   
+  
   constant ZERO : std_logic_vector(15 downto 0) := (others => '0');
+  
+  
+  variable bytesReceived : integer range -1 to 150 := 0;
+  variable receivingState : std_logic := '0';
+  variable incomingSumBytes : integer range -2 to 13 := 0;
+  
+  variable controlSumCalculated : std_logic_vector(15 downto 0) := (others => '0');
+  variable controlSumReceived : std_logic_vector(15 downto 0) := (others => '0');
+  variable performSumCheck : std_logic := '0';   
   
   
   
   begin
   
   if rising_edge(CLK) then
-  
-  
 		
 		configSig <= '0';
 		clkenaSig <= '1';
-		if byte_in_valid = '1' and lastValid = '0' then
-			byteToBePassed <= varCode(23 downto 16); --shift last out
-			
-			lastPassed := varCode(23 downto 16);
-			
-			byteIsNotCode := '1';
-			
-			numberEnabled <= numberEnabledVar;
-			
-			
-			varCode := varCode(15 downto 0) & byte_in; --shift new one in
-			
-			if varCode = CODE_CHANNELS_START then
-				numberEnabledVar := '1';
-				byteIsNotCode := '0';	
-				selectorSig <= '0';
-				blockSummation := 3;
-				
-			end if;
-			
-			if varCode = CODE_CHANNELS_STOP then
-				recCodeChanStop <= '1';
-				numberEnabledVar := '0';
-				byteIsNotCode := '0';
-				blockSummation := 3;
-			else
-				recCodeChanStop <= '0';
-			end if;
-			
-			if varCode = CODE_PLL_START then
-				numberEnabledVar := '1';
-				byteIsNotCode := '0';
-				selectorSig <= '1';
-				blockSummation := 3;
-			end if;
-			
-			if varCode = CODE_PLL_STOP then
-				recCodePllStop <= '1';
-				numberEnabledVar := '0';
-				byteIsNotCode := '0';
-				blockSummation := 3;
-			else
-				recCodePllStop <= '0';
-			end if;
 		
-			passByteOn <= '1';
+		debugSig <= controlSumReceived(7 downto 0);
+		
+		
+		
+		if byte_in_valid = '1' and lastValid = '0' then
 			
-			if byteIsNotCodeDeelayed = '0' then
-				--is code, block next 3 bytes from passing into stream.
-				blockBytes <= 3;
+			if incomingSumBytes > 0 then
+				
+				varCode := (others => '0');
+			
+				controlSumReceived := controlSumReceived(7 downto 0) & byte_in;
+				incomingSumBytes := incomingSumBytes - 1;
+				
+				if incomingSumBytes = 0 then
+					recCodeChanStop <= '1';
+					
+					if controlSumReceived = controlSumCalculated then
+						recSumOk  <= '1';
+					else
+						recSumOk <= '0';
+					end if;
+					
+				end if;
+				
 			else
-				blockBytes <= 0;
-			end if;
-			
-			byteIsNotCodeDeelayed := byteIsNotCode;
 			
 			
-			
---			if numberEnabledVar = '1' and (not (varCode = CODE_CHANNELS_START or varCode = CODE_CHANNELS_STOP) ) then
---				controlSum(7 downto 0) <= controlSum(7 downto 0) + varCode(23 downto 16);
---			end if;
--- works, kinda, puts too code as well
-	
-	
-			if (varCode = CODE_CHANNELS_START) then
-				controlSum(7 downto 0) <= (others => '0');
-			end if;
+				byteToBePassed <= varCode(23 downto 16); --shift last out
+				
+				lastPassed := varCode(23 downto 16);
+				
+				byteIsNotCode := '1';
+				
+				numberEnabled <= numberEnabledVar;
 				
 				
-			if numberEnabledVar = '1' and blockSummation = 0 then
-				controlSum <= controlSum + varCode(23 downto 16);
-			end if;
+				varCode := varCode(15 downto 0) & byte_in; --shift new one in
+				
+				if varCode = CODE_CHANNELS_START then
+					numberEnabledVar := '1';
+					byteIsNotCode := '0';	
+					selectorSig <= '0';
+					blockSummation := 3;
+					
+				end if;
+				
+				recCodeChanStop <= '0';
+				
+				if varCode = CODE_CHANNELS_STOP then
+					numberEnabledVar := '0';
+					byteIsNotCode := '0';
+					--blockSummation := 3;
+					incomingSumBytes := 2;
+				end if;
+				
+				if varCode = CODE_PLL_START then
+					numberEnabledVar := '1';
+					byteIsNotCode := '0';
+					selectorSig <= '1';
+					blockSummation := 3;
+				end if;
+				
+				if varCode = CODE_PLL_STOP then
+					recCodePllStop <= '1';
+					numberEnabledVar := '0';
+					byteIsNotCode := '0';
+					--blockSummation := 3;
+				else
+					recCodePllStop <= '0';
+				end if;
 			
-			if blockSummation > 0 then
-				blockSummation := blockSummation - 1;
-			end if;
-
-			
---			
---			if varCode = CODE_CHANNELS_START then
---				controlSum <= (others => '0');
---			elsif varCode /= CODE_CHANNELS_STOP then
---				controlSum(7 downto 0) <= varCode(23 downto 16);
---			end if;
-
-			
-			
-			
+				passByteOn <= '1';
+				
+				if byteIsNotCodeDeelayed = '0' then
+					--is code, block next 3 bytes from passing into stream.
+					blockBytes <= 3;
+				else
+					blockBytes <= 0;
+				end if;
+				
+				byteIsNotCodeDeelayed := byteIsNotCode;
+				
+				
+				
+		
+		
+				if (varCode = CODE_CHANNELS_START) then
+					controlSumCalculated := (others => '0');
+				end if;
+					
+					
+				if numberEnabledVar = '1' and blockSummation = 0 then
+					controlSumCalculated := controlSumCalculated + varCode(23 downto 16);
+				end if;
+				
+				if blockSummation > 0 then
+					blockSummation := blockSummation - 1;
+				end if;
+	
+				
+	--			
+	--			if varCode = CODE_CHANNELS_START then
+	--				controlSum <= (others => '0');
+	--			elsif varCode /= CODE_CHANNELS_STOP then
+	--				controlSum(7 downto 0) <= varCode(23 downto 16);
+	--			end if;
+	
+				
+				
+			end if;	
 		
 		else
 			--chan_stop <= '0';
 			recCodeChanStop <= '0';
+			recSumOk <= '0';
 			passByteOn <= '0';
 		end if;
 	
@@ -199,13 +229,16 @@ pll_scanclkena <= clkenaSig;
   deelay : process(CLK) is
   --deelay STOP signal transmission to allow passByte to shift data before channels latch it
   variable deelayVectorChanStop : std_logic_vector(15 downto 0) :="0000000000000000";
+  variable deelayVecotrSumOk : std_logic_vector(15 downto 0) := "0000000000000000";
   variable deelayVectorPllStop : std_logic_vector(15 downto 0) :="0000000000000000";
 
   begin
   if rising_edge(CLK) then
 		chan_stop <= deelayVectorChanStop(15);
 		pll_configupdate <= deelayVectorPllStop(15);
+		chan_configupdate <= deelayVecotrSumOk(15);
 		deelayVectorChanStop := deelayVectorChanStop(14 downto 0) & recCodeChanStop;
+		deelayVecotrSumOk := deelayVecotrSumOk(14 downto 0) & recSumOk;
 		deelayVectorPllStop := deelayVectorPllStop(14 downto 0) & recCodePllStop;
   end if;
   end process deelay;
@@ -240,7 +273,6 @@ pll_scanclkena <= clkenaSig;
 			else
 				bitCounter := 8;
 				latchedByte := byteToBePassed;
-				debugSig <= debugSig + byteToBePassed;
 			end if;
 		end if;
 		
