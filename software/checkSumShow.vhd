@@ -28,7 +28,8 @@ deelay : process(clock) is
   if rising_edge(clock) then
 		
 		if chan_stop = '1' then
-			counter := 10000000;
+			--counter := 10000000;
+			counter := 500000;
 			stopVal := chan_stop;
 			configVal := chan_configupdate;
 		end if;

@@ -40,7 +40,7 @@ applicable agreement for further details.
 	(input)
 	(rect 8 448 176 464)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "GPIO_2_10" (rect 5 0 61 12)(font "Arial" ))
+	(text "GPIO_0_IN_1" (rect 5 0 73 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -659,56 +659,56 @@ applicable agreement for further details.
 		(pt 232 32)
 		(output)
 		(text "bit_out" (rect 0 0 33 12)(font "Arial" ))
-		(text "bit_out" (rect 184 27 211 39)(font "Arial" ))
+		(text "bit_out" (rect 184 27 217 39)(font "Arial" ))
 		(line (pt 232 32)(pt 216 32))
 	)
 	(port
 		(pt 232 48)
 		(output)
 		(text "bit_out_shift" (rect 0 0 61 12)(font "Arial" ))
-		(text "bit_out_shift" (rect 160 43 211 55)(font "Arial" ))
+		(text "bit_out_shift" (rect 160 43 221 55)(font "Arial" ))
 		(line (pt 232 48)(pt 216 48))
 	)
 	(port
 		(pt 232 64)
 		(output)
 		(text "selector" (rect 0 0 38 12)(font "Arial" ))
-		(text "selector" (rect 179 59 211 71)(font "Arial" ))
+		(text "selector" (rect 179 59 217 71)(font "Arial" ))
 		(line (pt 232 64)(pt 216 64))
 	)
 	(port
 		(pt 232 80)
 		(output)
 		(text "pll_scanclkena" (rect 0 0 71 12)(font "Arial" ))
-		(text "pll_scanclkena" (rect 151 75 211 87)(font "Arial" ))
+		(text "pll_scanclkena" (rect 151 75 222 87)(font "Arial" ))
 		(line (pt 232 80)(pt 216 80))
 	)
 	(port
 		(pt 232 96)
 		(output)
 		(text "pll_configupdate" (rect 0 0 80 12)(font "Arial" ))
-		(text "pll_configupdate" (rect 144 91 211 103)(font "Arial" ))
+		(text "pll_configupdate" (rect 144 91 224 103)(font "Arial" ))
 		(line (pt 232 96)(pt 216 96))
 	)
 	(port
 		(pt 232 112)
 		(output)
 		(text "chan_stop" (rect 0 0 50 12)(font "Arial" ))
-		(text "chan_stop" (rect 169 107 211 119)(font "Arial" ))
+		(text "chan_stop" (rect 169 107 219 119)(font "Arial" ))
 		(line (pt 232 112)(pt 216 112))
 	)
 	(port
 		(pt 232 128)
 		(output)
 		(text "chan_configupdate" (rect 0 0 93 12)(font "Arial" ))
-		(text "chan_configupdate" (rect 133 123 211 135)(font "Arial" ))
+		(text "chan_configupdate" (rect 133 123 226 135)(font "Arial" ))
 		(line (pt 232 128)(pt 216 128))
 	)
 	(port
 		(pt 232 144)
 		(output)
 		(text "debug[7..0]" (rect 0 0 55 12)(font "Arial" ))
-		(text "debug[7..0]" (rect 165 139 211 151)(font "Arial" ))
+		(text "debug[7..0]" (rect 165 139 220 151)(font "Arial" ))
 		(line (pt 232 144)(pt 216 144)(line_width 3))
 	)
 	(drawing
@@ -982,14 +982,6 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 816 520)
-	(pt 856 520)
-)
-(connector
-	(pt 856 520)
-	(pt 856 536)
-)
-(connector
 	(pt 832 536)
 	(pt 832 568)
 	(bus)
@@ -1025,14 +1017,6 @@ applicable agreement for further details.
 (connector
 	(pt 936 656)
 	(pt 936 536)
-)
-(connector
-	(pt 856 536)
-	(pt 936 536)
-)
-(connector
-	(pt 936 536)
-	(pt 1808 536)
 )
 (connector
 	(pt 1536 664)
@@ -1121,6 +1105,22 @@ applicable agreement for further details.
 (connector
 	(pt 1264 624)
 	(pt 1536 624)
+)
+(connector
+	(pt 816 520)
+	(pt 880 520)
+)
+(connector
+	(pt 880 520)
+	(pt 880 536)
+)
+(connector
+	(pt 880 536)
+	(pt 936 536)
+)
+(connector
+	(pt 936 536)
+	(pt 1808 536)
 )
 (junction (pt 272 328))
 (junction (pt 1304 -24))

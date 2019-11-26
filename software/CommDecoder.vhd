@@ -257,10 +257,6 @@ pll_scanclkena <= clkenaSig;
   
   if rising_edge(CLK) then
   
- 
-		
-		
-		
 		
 		if passByteOn = '1' and lastPass = '0' then
 			
