@@ -91,27 +91,6 @@ set_location_assignment PIN_M15 -to SW[3]
 set_location_assignment PIN_B9 -to SW[2]
 set_location_assignment PIN_T8 -to SW[1]
 set_location_assignment PIN_M1 -to SW[0]
-set_global_assignment -name VHDL_FILE latcher.vhdl
-set_global_assignment -name VHDL_FILE ChannelArray64.vhdl
-set_global_assignment -name VHDL_FILE uartRec.vhd
-set_global_assignment -name VHDL_FILE shiftReg.vhd
-set_global_assignment -name VHDL_FILE setVal333.vhd
-set_global_assignment -name VHDL_FILE setVal111.vhd
-set_global_assignment -name VHDL_FILE setVal.vhd
-set_global_assignment -name VHDL_FILE pll180.vhd
-set_global_assignment -name VHDL_FILE newDivider.vhd
-set_global_assignment -name VHDL_FILE multi.vhd
-set_global_assignment -name VHDL_FILE Channel.vhd
-set_global_assignment -name VHDL_FILE freqCounter.vhd
-set_global_assignment -name VHDL_FILE count.vhd
-set_global_assignment -name VHDL_FILE CommDecoder.vhd
-set_global_assignment -name BDF_FILE ShiftedSignalGenerator.bdf
-set_global_assignment -name CDF_FILE output_files/Chain1.cdf
-set_global_assignment -name QIP_FILE pllreconfig.qip
-set_global_assignment -name QIP_FILE reconfigAid.qip
-set_global_assignment -name VHDL_FILE constantInShifter.vhd
-set_global_assignment -name VHDL_FILE demux.vhd
-set_global_assignment -name BDF_FILE comms.bdf
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -362,15 +341,42 @@ set_global_assignment -name PARTITION_COLOR 16764057 -entity ShiftedSignalGenera
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 set_global_assignment -name IOBANK_VCCIO 2.5V -section_id 6
 set_location_assignment PIN_B16 -to GPIO_2_1
-set_global_assignment -name VHDL_FILE tristate_test.vhd
-set_global_assignment -name VHDL_FILE output_files/clk_freq_interface.vhdl
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_3
 set_instance_assignment -name OUTPUT_TERMINATION OFF -to GPIO_2_IN_0
-set_global_assignment -name VHDL_FILE bidir_interface1.vhd
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_12
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_1
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_5
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_7
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_11
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_10
+set_global_assignment -name VHDL_FILE checkSumShow.vhd
+set_global_assignment -name VHDL_FILE latcher.vhdl
+set_global_assignment -name VHDL_FILE ChannelArray64.vhdl
+set_global_assignment -name VHDL_FILE uartRec.vhd
+set_global_assignment -name VHDL_FILE shiftReg.vhd
+set_global_assignment -name VHDL_FILE setVal333.vhd
+set_global_assignment -name VHDL_FILE setVal111.vhd
+set_global_assignment -name VHDL_FILE setVal.vhd
+set_global_assignment -name VHDL_FILE pll180.vhd
+set_global_assignment -name VHDL_FILE newDivider.vhd
+set_global_assignment -name VHDL_FILE multi.vhd
+set_global_assignment -name VHDL_FILE Channel.vhd
+set_global_assignment -name VHDL_FILE freqCounter.vhd
+set_global_assignment -name VHDL_FILE count.vhd
+set_global_assignment -name VHDL_FILE CommDecoder.vhd
+set_global_assignment -name BDF_FILE ShiftedSignalGenerator.bdf
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf
+set_global_assignment -name QIP_FILE pllreconfig.qip
+set_global_assignment -name QIP_FILE reconfigAid.qip
+set_global_assignment -name VHDL_FILE constantInShifter.vhd
+set_global_assignment -name VHDL_FILE demux.vhd
+set_global_assignment -name BDF_FILE comms.bdf
+set_global_assignment -name VHDL_FILE tristate_test.vhd
+set_global_assignment -name VHDL_FILE output_files/clk_freq_interface.vhdl
+set_global_assignment -name VHDL_FILE bidir_interface1.vhd
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name QIP_FILE constLogicVal.qip
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_8
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_6
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

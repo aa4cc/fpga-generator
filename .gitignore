@@ -6,3 +6,5 @@ output_files/
 simulation/
 .qsys_edit/
 *.bak
+checksums.jic
+checksums.map
