@@ -20,6 +20,7 @@ ENTITY ChannelArray64 IS
 	(
 		CLK_LOGIC : in std_logic;
 		CLK_FREQ  :  in std_logic;
+		PHASE_ONLY_MODE : in std_logic;
 		DATA_IN   : in 	std_logic_vector(1151 downto 0);
 		DATA_READY : in std_logic;
 		OUT_SIGNAL : out std_logic_vector(63 downto 0)

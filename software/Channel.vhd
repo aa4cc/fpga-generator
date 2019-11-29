@@ -12,7 +12,7 @@ ENTITY Channel IS
 		PULSE_WIDTH_IN : in std_logic_vector(8 downto 0);
 		OUT_SIGNAL : out std_logic
 	);
-END Channel;
+END Channel;	
 
 architecture arch1 of Channel is
 
