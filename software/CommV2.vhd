@@ -1,0 +1,284 @@
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.all; 
+USE ieee.numeric_std.all;
+USE ieee.std_logic_unsigned.all;
+
+ENTITY CommV2 IS 
+	PORT
+	(
+		CLK : in std_logic;
+		byte_in : in std_logic_vector(7 downto 0);
+
+		byte_in_valid : in std_logic;
+		
+		uart_ready : in std_logic;
+		uart_send_byte : out std_logic_vector(7 downto 0);
+		uart_send_start : out std_logic;
+		
+		chan_phases : out std_logic_vector(575 downto 0);
+		chan_duties : out std_logic_vector(575 downto 0);
+		debug :	out std_logic_vector(7 downto 0)
+	);
+END CommV2; 
+
+architecture arch1 of CommV2 is
+
+--replies
+constant R_CRC_OK : std_logic_vector(3 downto 0) := "1111";
+constant R_CRC_WRONG : std_logic_vector(3 downto 0) := "0011";
+constant R_GOT_TRIG : std_logic_vector(3 downto 0) := "0010";
+   
+
+
+constant CRC_LEN : integer := 8;
+constant CRC_POLY : std_logic_vector(CRC_LEN downto 0) := "100000111"; --0x107
+
+constant BUF_LEN : integer := 750;--1151;
+signal dataBufferSig : std_logic_vector(BUF_LEN downto 0) := (others => '0');
+signal crcSig : std_logic_vector(CRC_LEN-1 downto 0) := (others => '0');
+signal crcDataLen : integer range 0 to BUF_LEN := 0;
+signal crcRequest : std_logic := '0';
+signal crcReady : std_logic := '0';
+
+
+type dStates_t is (s_ready, s_gotCode, s_unknownCode, s_dataByte, s_crcByte, s_crcWaitR, s_crcWaitT, s_evaluate, s_doPhases, s_doDuties, s_transmitReply);  
+type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
+
+begin
+
+debug <= crcSig;
+
+
+ decode : process(CLK) is
+
+  constant CODE_SET_PHASES : std_logic_vector(7 downto 0) := "00000001";
+  constant CODE_SET_DUTIES : std_logic_vector(7 downto 0) := "00000010";
+  constant CODE_SET_PLL : std_logic_vector(7 downto 0) := "00000100";
+ 
+  variable unitID : std_logic_vector(3 downto 0) := "0000";
+  
+  variable d_state : dStates_t := s_ready;
+  
+  variable incomingByte : std_logic_vector(7 downto 0);
+  variable codeByte : std_logic_vector(7 downto 0) := (others => '0');
+  variable thisValid : std_logic := '0';
+  variable lastValid : std_logic := '0';
+  
+  variable dataBuffer : std_logic_vector(BUF_LEN downto 0) := (others => '0');
+  variable byteCounter : integer range 0 to 2048 := 0;
+  variable dataLen : integer range 0 to 2048 := 0;
+  
+  variable crcGotten : std_logic_vector(CRC_LEN - 1 downto 0) := (others => '0');
+  variable crcCalced : std_logic_vector(CRC_LEN - 1 downto 0) := (others => '0');
+  
+  variable crcIsCorrect : std_logic := '0';
+  
+  variable reply : std_logic_vector(7 downto 0);
+  
+  variable uartAllow : std_logic := '0';
+  
+  begin
+  
+  if rising_edge(CLK) then
+  
+	incomingByte := byte_in;
+	lastValid := thisValid;
+	thisValid := byte_in_valid;
+	
+	crcRequest <= '0';
+	uart_send_start <= '0';
+  
+	case d_state is
+	
+	when s_ready =>
+		if lastValid = '0' and thisValid = '1' then
+			--gotten new byte!
+			codeByte := incomingByte;
+			d_state := s_gotCode;
+			dataBuffer := (others => '0');
+			uartAllow := '1';
+		end if;
+
+	when s_gotCode =>
+		case codeByte is
+			when CODE_SET_PHASES =>
+				byteCounter := 72;
+				d_state := s_dataByte;
+			when CODE_SET_DUTIES =>
+				byteCounter := 72;
+				d_state := s_dataByte;
+			when CODE_SET_PLL =>
+				byteCounter := 18;
+				d_state := s_dataByte;
+			when others =>
+				d_state := s_unknownCode;
+		end case;
+		dataLen := byteCounter;
+		dataBuffer := dataBuffer((BUF_LEN - 8) downto 0) & codeByte;
+
+	when s_dataByte =>
+		if lastValid = '0' and thisValid = '1' then
+				--gotten new byte!
+				dataBuffer := dataBuffer((BUF_LEN - 8) downto 0) & incomingByte;
+				byteCounter := byteCounter - 1;
+				if byteCounter = 0 then
+					byteCounter := CRC_LEN/8;
+					crcRequest <= '1'; --request that CRC be calculated
+					dataBufferSig <= dataBuffer;
+					crcDataLen <= (dataLen + 1) * 8; --plus one because of the opening code byte
+					d_state := s_crcByte;
+				end if;
+			end if;
+	
+	when s_crcByte =>
+		if lastValid = '0' and thisValid = '1' then
+			--gotten new byte!
+			byteCounter := byteCounter - 1;
+			crcGotten((8*(byteCounter+1) - 1) downto 8*byteCounter) := incomingByte;
+			if byteCounter = 0 then
+				d_state := s_crcWaitR;
+			end if;
+		end if;
+	
+	when s_crcWaitR =>
+		if crcReady = '1' then
+			crcCalced := crcSig;
+			d_state := s_evaluate;
+		end if;
+		
+	when s_evaluate =>
+		crcIsCorrect := '0';
+		if crcCalced = crcGotten then
+			crcIsCorrect := '1';
+		end if;
+		
+		case codeByte is
+			when CODE_SET_PHASES =>
+				d_state := s_doPhases;
+			when CODE_SET_DUTIES =>
+				d_state := s_doDuties;
+			when others =>
+				d_state := s_unknownCode;
+		end case;
+		
+	when s_doPhases =>
+		
+		if crcIsCorrect = '1' then
+			chan_phases <= dataBuffer(575 downto 0);
+			reply := "00111111";
+		else
+			reply := "00000000";
+		end if;
+		
+		d_state := s_transmitReply;
+	
+	when s_doDuties =>
+		if crcIsCorrect = '1' then
+			chan_duties <= dataBuffer(575 downto 0);
+			reply := "11111111";
+		else
+			reply := "00000000";
+		end if;
+		d_state := s_transmitReply;
+	
+	when s_transmitReply =>
+		 
+		uart_send_byte <= reply;
+		if uart_ready = '1' then
+			uart_send_start <= '1';
+			d_state := s_ready;
+		end if;
+		
+	when others =>
+		d_state := s_ready;
+	
+		
+	
+	
+	end case;
+  
+  
+
+		
+  end if;
+ 
+  end process decode;
+  
+  
+  
+  
+ calculateCrc : process(CLK) is
+ 
+  variable dataBuffer : std_logic_vector(BUF_LEN + CRC_LEN  downto 0) := (others => '0');
+  variable polyBuffer : std_logic_vector(BUF_LEN + CRC_LEN  downto 0) := (others => '0');
+  constant ZEROS : std_logic_vector(dataBuffer'range) := (others => '0');
+  variable dataLen : integer range 0 to BUF_LEN := 0;
+  variable leadingBit : integer range 0 to BUF_LEN + CRC_LEN := 0; 
+  
+  variable c_state : cStates_t := s_ready;
+  variable alreadyCalced : std_logic := '0';
+ 
+  
+  begin
+  
+  if rising_edge(CLK) then
+  
+	case c_state is
+	
+	when s_ready =>
+		crcReady <= alreadyCalced;
+		if crcRequest = '1' then
+				dataLen := crcDataLen;
+				dataBuffer(BUF_LEN + CRC_LEN downto CRC_LEN) := dataBufferSig(BUF_LEN downto 0);
+				dataBuffer(CRC_LEN downto 0) := (others => '0');
+				polyBuffer(dataLen + CRC_LEN downto dataLen) := CRC_POLY(CRC_LEN downto 0);
+				polyBuffer(dataLen - CRC_LEN downto 0) := (others => '0');
+				leadingBit := dataLen + CRC_LEN;
+				c_state := s_shift;
+		end if;
+		
+	when s_calculating =>
+		crcReady <= '0';
+		dataBuffer := dataBuffer xor polyBuffer;
+		if dataBuffer(BUF_LEN + CRC_LEN downto CRC_LEN) = ZEROS(BUF_LEN + CRC_LEN downto CRC_LEN) then
+			c_state := s_complete;
+		else
+			polyBuffer := "0" & polyBuffer(BUF_LEN + CRC_LEN  downto 1);
+			leadingBit := leadingBit - 1;
+			if dataBuffer(leadingBit) = '0' then
+			   c_state := s_shift;
+			end if;
+		end if;
+		
+	when s_shift =>
+			if dataBuffer(leadingBit) = '1' then
+			   c_state := s_calculating;
+			else
+			   polyBuffer := "0" & polyBuffer(BUF_LEN + CRC_LEN  downto 1);
+			   leadingBit := leadingBit - 1;
+			end if;
+
+	when s_complete =>
+		alreadyCalced := '1';
+		crcReady <= '1';
+		crcSig <= dataBuffer(CRC_LEN-1 downto 0);
+		c_state := s_ready;
+	end case;
+  
+  
+	
+  end if;
+ 
+  end process calculateCrc;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+end arch1;
+

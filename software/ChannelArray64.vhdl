@@ -21,7 +21,8 @@ ENTITY ChannelArray64 IS
 		CLK_LOGIC : in std_logic;
 		CLK_FREQ  :  in std_logic;
 		PHASE_ONLY_MODE : in std_logic;
-		DATA_IN   : in 	std_logic_vector(1151 downto 0);
+		DATA_PHASE_IN : in std_logic_vector(575 downto 0);
+		DATA_DUTY_IN : in std_logic_vector(575 downto 0);
 		DATA_READY : in std_logic;
 		OUT_SIGNAL : out std_logic_vector(63 downto 0)
 	);
@@ -42,28 +43,25 @@ component Channel IS
 END component;
 
 
-signal PHASE_SHIFT_IN : std_logic_vector(575 downto 0);
-signal PULSE_WIDTH_IN : std_logic_vector(575 downto 0);
+signal PHASE_SHIFT_IN_BIG : std_logic_vector(575 downto 0) := (others => '0');
+signal PULSE_WIDTH_IN_BIG : std_logic_vector(575 downto 0) := (others => '0');
 
 begin
 
-CopyInput: for I in 0 to 63 generate
 
 process(DATA_READY) is
 
 begin
 	if rising_edge(DATA_READY) then
-		PHASE_SHIFT_IN((575-I*9) downto (575-I*9-8)) <= DATA_IN((1151-I*18) downto (1151-I*18-8));
-		PULSE_WIDTH_IN((575-I*9) downto (575-I*9-8)) <= DATA_IN((1151-I*18-9) downto (1151-I*18-17));
+		PHASE_SHIFT_IN_BIG <= DATA_PHASE_IN;
+		PULSE_WIDTH_IN_BIG <= DATA_DUTY_IN;
 	end if;
 end process;
 
 
-end generate CopyInput;
-
 ChannelArr: for I in 0 to 63 generate
 	chan: Channel port map
-	(CLK_LOGIC, CLK_FREQ, PHASE_SHIFT_IN((575-I*9) downto (575-I*9-8)), PULSE_WIDTH_IN((575-I*9) downto (575-I*9-8)), OUT_SIGNAL(I));
+	(CLK_LOGIC, CLK_FREQ, PHASE_SHIFT_IN_BIG((575-I*9) downto (575-I*9-8)), PULSE_WIDTH_IN_BIG((575-I*9) downto (575-I*9-8)), OUT_SIGNAL(I));
 end generate ChannelArr;
 
 
