@@ -36,7 +36,11 @@ begin
 
 
 phase_shift <= to_integer(unsigned(PHASE_SHIFT_IN));
-duty_width <= to_integer(unsigned(PULSE_WIDTH_IN));
+duty_width <= to_integer(unsigned(PULSE_WIDTH_IN)) when phase_shift < 361 	else 0;
+
+
+
+
 --OUT_SIGNAL <= output;
 OUT_SIGNAL <= duty_on; --and duty_enable;
 --TODO change?

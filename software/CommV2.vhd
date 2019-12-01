@@ -8,14 +8,12 @@ ENTITY CommV2 IS
 	PORT
 	(
 		CLK : in std_logic;
+		master_in : in std_logic;
 		byte_in : in std_logic_vector(7 downto 0);
-
 		byte_in_valid : in std_logic;
-		
 		uart_ready : in std_logic;
 		uart_send_byte : out std_logic_vector(7 downto 0);
 		uart_send_start : out std_logic;
-		
 		chan_phases : out std_logic_vector(575 downto 0);
 		chan_duties : out std_logic_vector(575 downto 0);
 		debug :	out std_logic_vector(7 downto 0)
@@ -42,7 +40,7 @@ signal crcRequest : std_logic := '0';
 signal crcReady : std_logic := '0';
 
 
-type dStates_t is (s_ready, s_gotCode, s_unknownCode, s_dataByte, s_crcByte, s_crcWaitR, s_crcWaitT, s_evaluate, s_doPhases, s_doDuties, s_transmitReply);  
+type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_crcWaitT, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
@@ -55,6 +53,18 @@ debug <= crcSig;
   constant CODE_SET_PHASES : std_logic_vector(7 downto 0) := "00000001";
   constant CODE_SET_DUTIES : std_logic_vector(7 downto 0) := "00000010";
   constant CODE_SET_PLL : std_logic_vector(7 downto 0) := "00000100";
+  constant CODE_INQUIRE_MASTER : std_logic_vector(7 downto 0) := "00001000";
+  
+  constant REPLY_CRC_OK : std_logic_vector(3 downto 0) := "1111";
+  constant REPLY_CRC_FAIL : std_logic_vector(3 downto 0) := "0000";
+  
+  constant REPLY_SET_PHASES : std_logic_vector(3 downto 0) := "0001";
+  constant REPLY_SET_DUTIES : std_logic_vector(3 downto 0) := "0010";
+  constant REPLY_SET_PLL : std_logic_vector(3 downto 0) := "0011";
+  constant REPLY_I_AM_MASTER : std_logic_vector(3 downto 0) := "0100";
+  constant REPLY_I_AM_SLAVE : std_logic_vector(3 downto 0)  := "0101";
+  
+  
  
   variable unitID : std_logic_vector(3 downto 0) := "0000";
   
@@ -111,6 +121,9 @@ debug <= crcSig;
 			when CODE_SET_PLL =>
 				byteCounter := 18;
 				d_state := s_dataByte;
+			when CODE_INQUIRE_MASTER =>
+				byteCounter := 0;
+				d_state := s_requestCrc;
 			when others =>
 				d_state := s_unknownCode;
 		end case;
@@ -122,14 +135,17 @@ debug <= crcSig;
 				--gotten new byte!
 				dataBuffer := dataBuffer((BUF_LEN - 8) downto 0) & incomingByte;
 				byteCounter := byteCounter - 1;
-				if byteCounter = 0 then
-					byteCounter := CRC_LEN/8;
-					crcRequest <= '1'; --request that CRC be calculated
-					dataBufferSig <= dataBuffer;
-					crcDataLen <= (dataLen + 1) * 8; --plus one because of the opening code byte
-					d_state := s_crcByte;
-				end if;
-			end if;
+		end if;
+		if byteCounter = 0 then
+				d_state := s_requestCrc;
+		end if;
+		
+	when s_requestCrc =>
+			byteCounter := CRC_LEN/8;
+			crcRequest <= '1'; 
+			dataBufferSig <= dataBuffer;
+			crcDataLen <= (dataLen + 1) * 8; --plus one because of the opening code byte
+			d_state := s_crcByte;
 	
 	when s_crcByte =>
 		if lastValid = '0' and thisValid = '1' then
@@ -158,6 +174,8 @@ debug <= crcSig;
 				d_state := s_doPhases;
 			when CODE_SET_DUTIES =>
 				d_state := s_doDuties;
+			when CODE_INQUIRE_MASTER =>
+				d_state := s_doInquire;
 			when others =>
 				d_state := s_unknownCode;
 		end case;
@@ -166,21 +184,36 @@ debug <= crcSig;
 		
 		if crcIsCorrect = '1' then
 			chan_phases <= dataBuffer(575 downto 0);
-			reply := "00111111";
+			reply(7 downto 4) := REPLY_CRC_OK;
 		else
-			reply := "00000000";
+			reply(7 downto 4) := REPLY_CRC_FAIL;
 		end if;
-		
+		reply(3 downto 0) := REPLY_SET_PHASES;
 		d_state := s_transmitReply;
 	
 	when s_doDuties =>
 		if crcIsCorrect = '1' then
 			chan_duties <= dataBuffer(575 downto 0);
-			reply := "11111111";
+			reply(7 downto 4) := REPLY_CRC_OK;
 		else
-			reply := "00000000";
+			reply(7 downto 4) := REPLY_CRC_FAIL;
+		end if;
+		reply(3 downto 0) := REPLY_SET_DUTIES;
+		d_state := s_transmitReply;
+		
+	when s_doInquire =>
+		if crcIsCorrect = '1' then
+			reply(7 downto 4) := REPLY_CRC_OK;
+		else
+			reply(7 downto 4) := REPLY_CRC_FAIL;
+		end if;
+		if master_in = '1' then
+			reply(3 downto 0) := REPLY_I_AM_MASTER;
+		else
+			reply(3 downto 0) := REPLY_I_AM_SLAVE;
 		end if;
 		d_state := s_transmitReply;
+		
 	
 	when s_transmitReply =>
 		 
