@@ -23,7 +23,7 @@ port (
 end uart_tx;  
  
 architecture tx1 of uart_tx is
-    type tx_states_t is (tx_ready, tx_start_bit, tx_data_bit, tx_parity, tx_stop_bit);  
+    type tx_states_t is (tx_ready, tx_start_bit, tx_data_bit, tx_stop_bit);  
         
 constant BAUD_CONST : integer := TARGET_MCLK / (UART_BAUD_RATE-1);
  
@@ -81,9 +81,8 @@ transmit : process(clock) is
         when tx_data_bit =>
           if tx_br_cntr = 0 then
             if tx_bit_cntr = 0 then 
-              tx_state <= tx_parity;
-              bit_clock <= not bit_clock;
-              trx <= parity_bit;
+              tx_state <= tx_stop_bit;
+				  trx <= '1';
               tx_br_cntr <= BAUD_CONST;
             else
               bit_clock <= not bit_clock;
@@ -96,25 +95,11 @@ transmit : process(clock) is
             tx_br_cntr <= tx_br_cntr - 1;
           end if;
             
-        when tx_parity =>
-          if tx_br_cntr = 0 then
-            tx_state <= tx_stop_bit;
-				tx_stop_cntr <= STOP_BITS;
-          else
-            tx_br_cntr <= tx_br_cntr - 1;
-          end if;
             
         when tx_stop_bit =>
           if tx_br_cntr = 0 then
-            if(tx_stop_cntr = 0) then
               sent <= '1';
 				  tx_state <= tx_ready;
-            else
-              bit_clock <= not bit_clock;
-              trx <= '1';
-              tx_br_cntr <= BAUD_CONST;
-              tx_stop_cntr <= tx_stop_cntr - 1;
-            end if;
           else
             tx_br_cntr <= tx_br_cntr - 1;
           end if;

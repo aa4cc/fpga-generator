@@ -11,9 +11,10 @@ entity bidir_interface1  is
 end bidir_interface1;
  
 architecture arch of bidir_interface1 is
+
 begin
     
 	 bidir_pin <= '0' when (is_master = '1' and sig_in = '0') else 'Z';
 	 sig_use <= bidir_pin;
-	 
+	  
 end arch;

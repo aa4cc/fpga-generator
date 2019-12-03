@@ -45,7 +45,7 @@ type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
 
-debug <= crcSig;
+debug <= (others => '0');
 
 
  decode : process(CLK) is
