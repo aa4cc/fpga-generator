@@ -16,6 +16,10 @@ ENTITY CommV2 IS
 		uart_send_start : out std_logic;
 		chan_phases : out std_logic_vector(575 downto 0);
 		chan_duties : out std_logic_vector(575 downto 0);
+		
+		master_clock_enable : out std_logic;
+		reset : out std_logic;
+		
 		debug :	out std_logic_vector(7 downto 0)
 	);
 END CommV2; 
@@ -45,8 +49,10 @@ type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
 
-debug <= (others => '0');
+debug <= crcSig;
 
+reset <= '0';
+master_clock_enable <= '1';
 
  decode : process(CLK) is
 
