@@ -44,22 +44,21 @@ signal crcRequest : std_logic := '0';
 signal crcReady : std_logic := '0';
 
 
-type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_crcWaitT, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_transmitReply);  
+type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_prepSync, s_performSync, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
 
 debug <= crcSig;
 
-reset <= '0';
-master_clock_enable <= '1';
 
  decode : process(CLK) is
 
-  constant CODE_SET_PHASES : std_logic_vector(7 downto 0) := "00000001";
-  constant CODE_SET_DUTIES : std_logic_vector(7 downto 0) := "00000010";
-  constant CODE_SET_PLL : std_logic_vector(7 downto 0) := "00000100";
-  constant CODE_INQUIRE_MASTER : std_logic_vector(7 downto 0) := "00001000";
+  constant CODE_SET_PHASES : std_logic_vector(7 downto 0) 		:= "00000001";
+  constant CODE_SET_DUTIES : std_logic_vector(7 downto 0) 		:= "00000010";
+  constant CODE_SET_PLL : std_logic_vector(7 downto 0) 			:= "00000100";
+  constant CODE_INQUIRE_MASTER : std_logic_vector(7 downto 0) 	:= "00001000";
+  constant CODE_SYNC_DIVIDERS : std_logic_vector(7 downto 0) 	:= "00010000";
   
   constant REPLY_CRC_OK : std_logic_vector(3 downto 0) := "1111";
   constant REPLY_CRC_FAIL : std_logic_vector(3 downto 0) := "0000";
@@ -69,6 +68,10 @@ master_clock_enable <= '1';
   constant REPLY_SET_PLL : std_logic_vector(3 downto 0) := "0011";
   constant REPLY_I_AM_MASTER : std_logic_vector(3 downto 0) := "0100";
   constant REPLY_I_AM_SLAVE : std_logic_vector(3 downto 0)  := "0101";
+  constant REPLY_SYNC_OK : std_logic_vector(3 downto 0)  := "0110";
+  constant REPLY_SYNC_NOT_MASTER : std_logic_vector(3 downto 0)  := "0111";
+  constant REPLY_UNKNOWN_CODE : std_logic_vector(3 downto 0)  := "1000";
+  
   
   
  
@@ -94,16 +97,23 @@ master_clock_enable <= '1';
   
   variable uartAllow : std_logic := '0';
   
+  variable syncCounter : integer range 0 to 10000000;
+  constant resetCount : integer := 		50000;
+  constant enableCount : integer := 	500000;
+  
   begin
   
   if rising_edge(CLK) then
-  
 	incomingByte := byte_in;
+  
 	lastValid := thisValid;
 	thisValid := byte_in_valid;
 	
 	crcRequest <= '0';
 	uart_send_start <= '0';
+	
+	reset <= '0';
+	master_clock_enable <= '1';
   
 	case d_state is
 	
@@ -130,8 +140,12 @@ master_clock_enable <= '1';
 			when CODE_INQUIRE_MASTER =>
 				byteCounter := 0;
 				d_state := s_requestCrc;
+			when CODE_SYNC_DIVIDERS =>
+				byteCounter := 0;
+				d_state := s_requestCrc;
 			when others =>
-				d_state := s_unknownCode;
+				byteCounter := 0;
+				d_state := s_requestCrc;
 		end case;
 		dataLen := byteCounter;
 		dataBuffer := dataBuffer((BUF_LEN - 8) downto 0) & codeByte;
@@ -175,6 +189,12 @@ master_clock_enable <= '1';
 			crcIsCorrect := '1';
 		end if;
 		
+		if crcIsCorrect = '1' then
+			reply(7 downto 4) := REPLY_CRC_OK;
+		else
+			reply(7 downto 4) := REPLY_CRC_FAIL;
+		end if;
+		
 		case codeByte is
 			when CODE_SET_PHASES =>
 				d_state := s_doPhases;
@@ -182,6 +202,8 @@ master_clock_enable <= '1';
 				d_state := s_doDuties;
 			when CODE_INQUIRE_MASTER =>
 				d_state := s_doInquire;
+			when CODE_SYNC_DIVIDERS =>
+				d_state := s_prepSync;
 			when others =>
 				d_state := s_unknownCode;
 		end case;
@@ -190,9 +212,6 @@ master_clock_enable <= '1';
 		
 		if crcIsCorrect = '1' then
 			chan_phases <= dataBuffer(575 downto 0);
-			reply(7 downto 4) := REPLY_CRC_OK;
-		else
-			reply(7 downto 4) := REPLY_CRC_FAIL;
 		end if;
 		reply(3 downto 0) := REPLY_SET_PHASES;
 		d_state := s_transmitReply;
@@ -200,19 +219,12 @@ master_clock_enable <= '1';
 	when s_doDuties =>
 		if crcIsCorrect = '1' then
 			chan_duties <= dataBuffer(575 downto 0);
-			reply(7 downto 4) := REPLY_CRC_OK;
-		else
-			reply(7 downto 4) := REPLY_CRC_FAIL;
 		end if;
 		reply(3 downto 0) := REPLY_SET_DUTIES;
 		d_state := s_transmitReply;
 		
 	when s_doInquire =>
-		if crcIsCorrect = '1' then
-			reply(7 downto 4) := REPLY_CRC_OK;
-		else
-			reply(7 downto 4) := REPLY_CRC_FAIL;
-		end if;
+		
 		if master_in = '1' then
 			reply(3 downto 0) := REPLY_I_AM_MASTER;
 		else
@@ -220,6 +232,30 @@ master_clock_enable <= '1';
 		end if;
 		d_state := s_transmitReply;
 		
+	when s_prepSync =>
+		if master_in = '0' then
+			reply(3 downto 0) := REPLY_SYNC_NOT_MASTER;
+			d_state := s_transmitReply;
+		else
+			reply(3 downto 0) := REPLY_SYNC_OK;
+			syncCounter := 0;
+			d_state := s_performSync;
+		end if;
+		
+	when s_performSync =>
+		reset <= '1';
+		master_clock_enable <= '0';
+		
+		if syncCounter > resetCount then
+			reset <= '0';
+		end if;
+		
+		if syncCounter > enableCount then
+			master_clock_enable <= '1';
+			d_state := s_transmitReply;
+		end if;
+			
+		syncCounter := syncCounter + 1;
 	
 	when s_transmitReply =>
 		 
@@ -229,8 +265,9 @@ master_clock_enable <= '1';
 			d_state := s_ready;
 		end if;
 		
-	when others =>
-		d_state := s_ready;
+	when s_unknownCode =>
+		reply(3 downto 0) := REPLY_UNKNOWN_CODE;
+		d_state := s_transmitReply;
 	
 		
 	
@@ -274,6 +311,8 @@ master_clock_enable <= '1';
 				polyBuffer(dataLen + CRC_LEN downto dataLen) := CRC_POLY(CRC_LEN downto 0);
 				polyBuffer(dataLen - CRC_LEN downto 0) := (others => '0');
 				leadingBit := dataLen + CRC_LEN;
+				alreadyCalced := '0';
+				crcReady <= '0';
 				c_state := s_shift;
 		end if;
 		
@@ -288,20 +327,29 @@ master_clock_enable <= '1';
 			if dataBuffer(leadingBit) = '0' then
 			   c_state := s_shift;
 			end if;
+			if leadingBit = 0 then
+				c_state := s_complete;
+			end if;
 		end if;
 		
 	when s_shift =>
-			if dataBuffer(leadingBit) = '1' then
-			   c_state := s_calculating;
-			else
-			   polyBuffer := "0" & polyBuffer(BUF_LEN + CRC_LEN  downto 1);
-			   leadingBit := leadingBit - 1;
+		crcReady <= '0';
+		if dataBuffer(leadingBit) = '1' then
+			c_state := s_calculating;
+		else
+			polyBuffer := "0" & polyBuffer(BUF_LEN + CRC_LEN  downto 1);
+			leadingBit := leadingBit - 1;
+			if leadingBit = 0 then
+				c_state := s_complete;
 			end if;
+		end if;
 
 	when s_complete =>
 		alreadyCalced := '1';
-		crcReady <= '1';
+		crcReady <= '0';
 		crcSig <= dataBuffer(CRC_LEN-1 downto 0);
+		dataBuffer := (others => '0');
+		polyBuffer := (others => '0');
 		c_state := s_ready;
 	end case;
   
@@ -320,4 +368,5 @@ master_clock_enable <= '1';
   
   
 end arch1;
+
 

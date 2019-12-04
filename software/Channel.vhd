@@ -103,7 +103,7 @@ OUT_SIGNAL <= duty_on; --and duty_enable;
   
   
   
-  dutyCycle : process(CLK_LOGIC) is
+  dutyCycle : process(CLK_LOGIC, RESET) is
   variable counter : integer range 0 to 400 := 0;
   variable counting : std_logic := '0';
   variable lastBegin : std_logic := '0';

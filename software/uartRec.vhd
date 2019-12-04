@@ -24,10 +24,14 @@ architecture rtl of uart_rx is
 signal rx_state : rx_states_t;
 signal rx_br_cntr : integer range 0 to TARGET_MCLK/UART_BAUD_RATE-1;
 signal rx_bit_cntr : integer range 0 to DATA_BITS;
-signal rx_data : std_logic_vector(DATA_BITS-1 downto 0);
-signal rxd_latch : std_logic;
+signal rx_data : std_logic_vector(DATA_BITS-1 downto 0) := (others => '0');
+signal rxd_latch : std_logic := '1';
+ 
+ 
  
 begin
+ 
+ data <= rx_data;
  
 prijem : process (clock) is --, reset) is
   begin
@@ -71,7 +75,7 @@ prijem : process (clock) is --, reset) is
                    when rx_stop_bit =>
                         if rx_br_cntr = 0 then
                             rx_state <= rx_ready;
-									 data <= rx_data;
+									 --data <= rx_data;
                               fe <= '1';
 										send <= '1';
                          else
