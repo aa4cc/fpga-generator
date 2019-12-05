@@ -129,7 +129,7 @@ debug <= crcSig;
 	when s_gotCode =>
 		case codeByte is
 			when CODE_SET_PHASES =>
-				byteCounter := 2;
+				byteCounter := 72;
 				d_state := s_dataByte;
 			when CODE_SET_DUTIES =>
 				byteCounter := 72;
