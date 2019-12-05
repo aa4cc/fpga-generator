@@ -129,7 +129,7 @@ debug <= crcSig;
 	when s_gotCode =>
 		case codeByte is
 			when CODE_SET_PHASES =>
-				byteCounter := 72;
+				byteCounter := 2;
 				d_state := s_dataByte;
 			when CODE_SET_DUTIES =>
 				byteCounter := 72;
@@ -305,11 +305,11 @@ debug <= crcSig;
 	when s_ready =>
 		crcReady <= alreadyCalced;
 		if crcRequest = '1' then
-				dataLen := crcDataLen;
+				dataLen := crcDataLen + 8;
 				dataBuffer(BUF_LEN + CRC_LEN downto CRC_LEN) := dataBufferSig(BUF_LEN downto 0);
-				dataBuffer(CRC_LEN downto 0) := (others => '0');
+				--dataBuffer(CRC_LEN - 1 downto 0) := (others => '0');
 				polyBuffer(dataLen + CRC_LEN downto dataLen) := CRC_POLY(CRC_LEN downto 0);
-				polyBuffer(dataLen - CRC_LEN downto 0) := (others => '0');
+				--polyBuffer(dataLen - CRC_LEN downto 0) := (others => '0');
 				leadingBit := dataLen + CRC_LEN;
 				alreadyCalced := '0';
 				crcReady <= '0';
@@ -368,5 +368,6 @@ debug <= crcSig;
   
   
 end arch1;
+
 
 
