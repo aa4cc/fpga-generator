@@ -4,7 +4,7 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
  
 entity uart_rx is
-generic ( -- definujeme interni entitu, neni jiz potreba definovat polaritu signalu, vse je aktivni v 1
+generic (
 DATA_BITS : integer := 8;
 UART_BAUD_RATE : integer := 230400;
 TARGET_MCLK : integer := 50000000);
@@ -24,18 +24,17 @@ architecture rtl of uart_rx is
 signal rx_state : rx_states_t;
 signal rx_br_cntr : integer range 0 to TARGET_MCLK/UART_BAUD_RATE-1;
 signal rx_bit_cntr : integer range 0 to DATA_BITS;
-signal rx_data : std_logic_vector(DATA_BITS-1 downto 0);
-signal rxd_latch : std_logic;
+signal rx_data : std_logic_vector(DATA_BITS-1 downto 0) := (others => '0');
+signal rxd_latch : std_logic := '1';
+ 
+ 
  
 begin
  
+ data <= rx_data;
+ 
 prijem : process (clock) is --, reset) is
   begin
---       if reset = '0' then
---             rx_state <= rx_ready;
---             send <= '0';
---             fe <= '0';
---             rxd_latch <= '0';
        if rising_edge(clock) then
              rxd_latch <= rxd;
              case rx_state is
@@ -61,6 +60,9 @@ prijem : process (clock) is --, reset) is
 											data_out <= rxd_latch;
 											data_out_clk <= '1';
                                  rx_br_cntr <= TARGET_MCLK/UART_BAUD_RATE-1;
+											if rx_bit_cntr = 1 then
+												rx_state <= rx_stop_bit;
+											end if;
                                  rx_bit_cntr <= rx_bit_cntr - 1;
                            else
                                  rx_state <= rx_stop_bit;
@@ -70,19 +72,12 @@ prijem : process (clock) is --, reset) is
                          rx_br_cntr <= rx_br_cntr - 1;
 								 data_out_clk <= '0';
                        end if; 
---						 when rx_parity_bit =>
---								rx_state <= rx_stop_bit;
                    when rx_stop_bit =>
                         if rx_br_cntr = 0 then
                             rx_state <= rx_ready;
-                            if rxd_latch = '1' then
-                              data <= rx_data ;
-                              send <= '1';
-										fe <= '0';
-                            else
+									 --data <= rx_data;
                               fe <= '1';
 										send <= '1';
-                            end if;
                          else
                            rx_br_cntr <= rx_br_cntr - 1; 
                          end if;
