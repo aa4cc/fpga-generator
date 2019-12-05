@@ -145,7 +145,7 @@ debug <= crcSig;
 				d_state := s_requestCrc;
 			when others =>
 				byteCounter := 0;
-				d_state := s_requestCrc;
+				d_state := s_unknownCode;
 		end case;
 		dataLen := byteCounter;
 		dataBuffer := dataBuffer((BUF_LEN - 8) downto 0) & codeByte;
