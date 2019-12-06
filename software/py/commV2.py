@@ -8,7 +8,7 @@ import time;
 import crc8
 
 #master 10
-port = serial.Serial('COM8', 230400, parity= serial.PARITY_NONE) #pozn.: paritu prvni verze generatoru v FPGA nekontroluje, paritni bit jen precte a zahodi (aktualni k 8.4.2018)
+port = serial.Serial('COM10', 230400, parity= serial.PARITY_NONE) #pozn.: paritu prvni verze generatoru v FPGA nekontroluje, paritni bit jen precte a zahodi (aktualni k 8.4.2018)
 
 
 #port.write(bytes([1]))
@@ -20,7 +20,7 @@ port = serial.Serial('COM8', 230400, parity= serial.PARITY_NONE) #pozn.: paritu 
 
 dataArray = []
 for i in range(64):
-    dataArray.append(4);
+    dataArray.append(60);
 
 
 #code taken from previous version of comm
@@ -46,26 +46,21 @@ intsArray = [int(i, 2) for i in bytesArray]
 CODE_PHASES = [1]
 CODE_DUTIES = [2]
 CODE_PLL = [4] #not yet implemented
-CODE_INQ_MASTER = [8]
+CODE_INQUIRE_MASTER = [8]
 CODE_SYNCH = [16]
-
+CODE_SET_MASTER = [32]
+CODE_SET_SLAVE = [64]
 
 
 code = CODE_PHASES   #edit this line
 
 if code == CODE_PHASES or code == CODE_DUTIES:
     intsArray = code + intsArray
-elif code == CODE_INQ_MASTER or code == CODE_SYNCH:
-    intsArray = code
 elif code == CODE_PLL:
     print("Not yet implemented");
     exit();
-
-if code == CODE_PHASES:
-    intsArray = intsArray[0:3]
-    print("REMEMBER  TO       REMOVE THIS DEBUG    !!!")
-    print("REMEMBER TO REMOVE                   THIS     DEBUG !!!")
-    print("REMEMBER          TO REMOVE THIS DEBUG !!!")
+else:
+    intsArray = code
 
 print("Going to send ", intsArray)
 
@@ -78,6 +73,7 @@ print("Calced crc is ", hash.hexdigest())
 
 #break intsArray:
 #intsArray[5] = intsArray[5] + 1
+intsArray[0] = intsArray[0] 
 
 port.write(bytes(intsArray) + hash.digest()) #send code, array of data bytes and crc byte
 
@@ -115,18 +111,22 @@ elif repR == 5:
 elif repR == 6:
     print("Generator says: I received command to perform synch and I'm master.")
 elif repR == 7:
-    print("Generator says: I received command to perform synch but I'm ingoring it because I'm not master!")
+    print("Generator says: I received command to perform synch but I'm ignoring it because I'm not master!")
 elif repR == 8:
-    print("Generator says: I received an invalid code")
+    print("Generator says: I received an invalid code (Please ignore previous nibble, I did not check CRC)")
+elif repR == 9:
+    print("Generator says: I received command to switch into master mode.")
+elif repR == 10:
+    print("Generator says: I received command to switch into slave mode.")
 else:   
     print("Unknown data reply nibble")
 
 
 
 
-
-
-
+while 1:
+    b = port.read()
+    print(b)
 
 
 
