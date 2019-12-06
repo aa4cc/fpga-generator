@@ -8,7 +8,6 @@ ENTITY CommV2 IS
 	PORT
 	(
 		CLK : in std_logic;
-		master_in : in std_logic;
 		byte_in : in std_logic_vector(7 downto 0);
 		byte_in_valid : in std_logic;
 		uart_ready : in std_logic;
@@ -18,7 +17,11 @@ ENTITY CommV2 IS
 		chan_duties : out std_logic_vector(575 downto 0);
 		
 		master_clock_enable : out std_logic;
+		
+		master_out : out std_logic;
+		
 		reset : out std_logic;
+		
 		
 		debug :	out std_logic_vector(7 downto 0)
 	);
@@ -43,14 +46,15 @@ signal crcDataLen : integer range 0 to BUF_LEN := 0;
 signal crcRequest : std_logic := '0';
 signal crcReady : std_logic := '0';
 
+signal master : std_logic := '0';
 
-type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_prepSync, s_performSync, s_transmitReply);  
+type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_prepSync, s_doSync, s_doMaster, s_doSlave, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
 
 debug <= crcSig;
-
+master_out <= master;
 
  decode : process(CLK) is
 
@@ -59,6 +63,9 @@ debug <= crcSig;
   constant CODE_SET_PLL : std_logic_vector(7 downto 0) 			:= "00000100";
   constant CODE_INQUIRE_MASTER : std_logic_vector(7 downto 0) 	:= "00001000";
   constant CODE_SYNC_DIVIDERS : std_logic_vector(7 downto 0) 	:= "00010000";
+  constant CODE_SET_MASTER : std_logic_vector(7 downto 0) 		:= "00100000";
+  constant CODE_SET_SLAVE : std_logic_vector(7 downto 0) 		:= "01000000";
+  
   
   constant REPLY_CRC_OK : std_logic_vector(3 downto 0) := "1111";
   constant REPLY_CRC_FAIL : std_logic_vector(3 downto 0) := "0000";
@@ -71,7 +78,8 @@ debug <= crcSig;
   constant REPLY_SYNC_OK : std_logic_vector(3 downto 0)  := "0110";
   constant REPLY_SYNC_NOT_MASTER : std_logic_vector(3 downto 0)  := "0111";
   constant REPLY_UNKNOWN_CODE : std_logic_vector(3 downto 0)  := "1000";
-  
+  constant REPLY_SET_MASTER : std_logic_vector(3 downto 0)  := "1001";
+  constant REPLY_SET_SLAVE : std_logic_vector(3 downto 0)  := "1010";
   
   
  
@@ -143,6 +151,12 @@ debug <= crcSig;
 			when CODE_SYNC_DIVIDERS =>
 				byteCounter := 0;
 				d_state := s_requestCrc;
+			when CODE_SET_MASTER =>
+				byteCounter := 0;
+				d_state := s_requestCrc;
+			when CODE_SET_SLAVE =>
+				byteCounter := 0;
+				d_state := s_requestCrc;
 			when others =>
 				byteCounter := 0;
 				d_state := s_unknownCode;
@@ -204,6 +218,10 @@ debug <= crcSig;
 				d_state := s_doInquire;
 			when CODE_SYNC_DIVIDERS =>
 				d_state := s_prepSync;
+			when CODE_SET_MASTER =>
+				d_state := s_doMaster;
+			when CODE_SET_SLAVE =>
+				d_state := s_doSlave;
 			when others =>
 				d_state := s_unknownCode;
 		end case;
@@ -225,7 +243,7 @@ debug <= crcSig;
 		
 	when s_doInquire =>
 		
-		if master_in = '1' then
+		if master = '1' then
 			reply(3 downto 0) := REPLY_I_AM_MASTER;
 		else
 			reply(3 downto 0) := REPLY_I_AM_SLAVE;
@@ -233,16 +251,16 @@ debug <= crcSig;
 		d_state := s_transmitReply;
 		
 	when s_prepSync =>
-		if master_in = '0' then
+		if master = '0' then
 			reply(3 downto 0) := REPLY_SYNC_NOT_MASTER;
 			d_state := s_transmitReply;
 		else
 			reply(3 downto 0) := REPLY_SYNC_OK;
 			syncCounter := 0;
-			d_state := s_performSync;
+			d_state := s_doSync;
 		end if;
 		
-	when s_performSync =>
+	when s_doSync =>
 		reset <= '1';
 		master_clock_enable <= '0';
 		
@@ -256,6 +274,20 @@ debug <= crcSig;
 		end if;
 			
 		syncCounter := syncCounter + 1;
+	
+	when s_doMaster =>
+		if crcIsCorrect = '1' then
+			master <= '1';
+		end if;
+		reply(3 downto 0) := REPLY_SET_MASTER;
+		d_state := s_transmitReply;
+	
+	when s_doSlave =>
+		if crcIsCorrect = '1' then
+			master <= '0';
+		end if;
+		reply(3 downto 0) := REPLY_SET_SLAVE;
+		d_state := s_transmitReply;
 	
 	when s_transmitReply =>
 		 

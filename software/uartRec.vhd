@@ -34,6 +34,8 @@ begin
  data <= rx_data;
  
 prijem : process (clock) is --, reset) is
+  variable startCounterOk : integer range 0 to TARGET_MCLK/UART_BAUD_RATE := 0;
+  variable startCounterFail : integer range 0 to TARGET_MCLK/UART_BAUD_RATE := 0;
   begin
        if rising_edge(clock) then
              rxd_latch <= rxd;
@@ -45,13 +47,24 @@ prijem : process (clock) is --, reset) is
                                 rx_bit_cntr <= DATA_BITS;
                                 rx_state <= rx_start_bit;
                                 rx_br_cntr <= (TARGET_MCLK/UART_BAUD_RATE-1)/2;
+										  startCounterOk := 0;
+										  startCounterFail := 0;
                       end if;
                  when rx_start_bit => 
                        if rx_br_cntr = 0 then
-                          rx_state <= rx_receiv;
-                          rx_br_cntr <= TARGET_MCLK/UART_BAUD_RATE-1;
+								  if startCounterOk > startCounterFail then
+										rx_state <= rx_receiv;
+										rx_br_cntr <= TARGET_MCLK/UART_BAUD_RATE-1;
+								  else
+										rx_state <= rx_ready;
+								  end if;
                        else
                           rx_br_cntr <= rx_br_cntr - 1;
+								  if rxd_latch = '0' then
+								      startCounterOk := startCounterOk + 1;
+								  else
+								      startCounterFail := startCounterFail + 1;
+								  end if;
                        end if;
                   when rx_receiv =>
                         if rx_br_cntr = 0 then
