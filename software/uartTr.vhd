@@ -4,7 +4,7 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
  
 entity uart_tx is
-generic ( -- definujeme interni entitu, neni jiz potreba definovat polaritu signalu, vse je aktivni v 1
+generic (
 DATA_BITS : integer := 8;
 STOP_BITS : integer := 1;
 UART_BAUD_RATE : integer := 230400;
