@@ -20,8 +20,10 @@ ENTITY CommV2 IS
 		
 		master_out : out std_logic;
 		
-		reset : out std_logic;
+		pll_scanchain : out std_logic_vector(143 downto 0);
+		pll_perform_reconfig : out std_logic;
 		
+		reset : out std_logic;
 		
 		debug :	out std_logic_vector(7 downto 0)
 	);
@@ -48,7 +50,7 @@ signal crcReady : std_logic := '0';
 
 signal master : std_logic := '0';
 
-type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doInquire, s_prepSync, s_doSync, s_doMaster, s_doSlave, s_transmitReply);  
+type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doPll, s_doInquire, s_prepSync, s_doSync, s_doMaster, s_doSlave, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
@@ -122,6 +124,7 @@ master_out <= master;
 	
 	reset <= '0';
 	master_clock_enable <= '1';
+	pll_perform_reconfig <= '0';
   
 	case d_state is
 	
@@ -214,6 +217,8 @@ master_out <= master;
 				d_state := s_doPhases;
 			when CODE_SET_DUTIES =>
 				d_state := s_doDuties;
+			when CODE_SET_PLL =>
+				d_state := s_doPll;
 			when CODE_INQUIRE_MASTER =>
 				d_state := s_doInquire;
 			when CODE_SYNC_DIVIDERS =>
@@ -240,6 +245,14 @@ master_out <= master;
 		end if;
 		reply(3 downto 0) := REPLY_SET_DUTIES;
 		d_state := s_transmitReply;
+	
+	when s_doPll =>
+		if crcIsCorrect = '1' then
+			pll_scanchain <= dataBuffer(143 downto 0);
+		end if;
+		reply(3 downto 0) := REPLY_SET_PLL;
+		d_state := s_transmitReply;
+		pll_perform_reconfig <= '1';
 		
 	when s_doInquire =>
 		

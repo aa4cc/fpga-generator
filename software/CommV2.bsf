@@ -20,9 +20,9 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 256 192)
+	(rect 16 16 256 224)
 	(text "CommV2" (rect 5 0 46 12)(font "Arial" ))
-	(text "inst" (rect 8 160 20 172)(font "Arial" ))
+	(text "inst" (rect 8 192 20 204)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -96,18 +96,32 @@ applicable agreement for further details.
 	(port
 		(pt 240 128)
 		(output)
-		(text "reset" (rect 0 0 20 12)(font "Arial" ))
-		(text "reset" (rect 199 123 219 135)(font "Arial" ))
-		(line (pt 240 128)(pt 224 128)(line_width 1))
+		(text "pll_scanchain[143..0]" (rect 0 0 81 12)(font "Arial" ))
+		(text "pll_scanchain[143..0]" (rect 138 123 219 135)(font "Arial" ))
+		(line (pt 240 128)(pt 224 128)(line_width 3))
 	)
 	(port
 		(pt 240 144)
 		(output)
+		(text "pll_perform_reconfig" (rect 0 0 83 12)(font "Arial" ))
+		(text "pll_perform_reconfig" (rect 136 139 219 151)(font "Arial" ))
+		(line (pt 240 144)(pt 224 144)(line_width 1))
+	)
+	(port
+		(pt 240 160)
+		(output)
+		(text "reset" (rect 0 0 20 12)(font "Arial" ))
+		(text "reset" (rect 199 155 219 167)(font "Arial" ))
+		(line (pt 240 160)(pt 224 160)(line_width 1))
+	)
+	(port
+		(pt 240 176)
+		(output)
 		(text "debug[7..0]" (rect 0 0 43 12)(font "Arial" ))
-		(text "debug[7..0]" (rect 176 139 219 151)(font "Arial" ))
-		(line (pt 240 144)(pt 224 144)(line_width 3))
+		(text "debug[7..0]" (rect 176 171 219 183)(font "Arial" ))
+		(line (pt 240 176)(pt 224 176)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 224 160)(line_width 1))
+		(rectangle (rect 16 16 224 192)(line_width 1))
 	)
 )
