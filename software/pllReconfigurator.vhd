@@ -62,15 +62,17 @@ begin
 			else
 				clkVar := '0';
 				scanclk <= '1';
-				scandata <= keptChain(position);
 			end if;
+			scandata <= keptChain(position);
+			
+			
 		when s_done =>
 			state := s_update;
 		when s_update =>
 			configupdate <= '1';
 			state := s_rearm;
 		when s_rearm =>
-			if performReconfig = '1' then
+			if performReconfig = '0' then
 				state := s_ready;
 			end if;
 	
