@@ -555,7 +555,7 @@ applicable agreement for further details.
 	(annotation_block (parameter)(rect 1688 168 1923 196))
 )
 (symbol
-	(rect 1896 376 2200 552)
+	(rect 1904 376 2208 552)
 	(text "ChannelArray64" (rect 5 0 84 12)(font "Arial" ))
 	(text "inst5" (rect 8 160 31 172)(font "Arial" ))
 	(port
@@ -776,70 +776,70 @@ applicable agreement for further details.
 		(pt 240 32)
 		(output)
 		(text "uart_send_byte[7..0]" (rect 0 0 102 12)(font "Arial" ))
-		(text "uart_send_byte[7..0]" (rect 133 27 219 39)(font "Arial" ))
+		(text "uart_send_byte[7..0]" (rect 133 27 235 39)(font "Arial" ))
 		(line (pt 240 32)(pt 224 32)(line_width 3))
 	)
 	(port
 		(pt 240 48)
 		(output)
 		(text "uart_send_start" (rect 0 0 76 12)(font "Arial" ))
-		(text "uart_send_start" (rect 155 43 219 55)(font "Arial" ))
+		(text "uart_send_start" (rect 155 43 231 55)(font "Arial" ))
 		(line (pt 240 48)(pt 224 48))
 	)
 	(port
 		(pt 240 64)
 		(output)
 		(text "chan_phases[575..0]" (rect 0 0 102 12)(font "Arial" ))
-		(text "chan_phases[575..0]" (rect 133 59 219 71)(font "Arial" ))
+		(text "chan_phases[575..0]" (rect 133 59 235 71)(font "Arial" ))
 		(line (pt 240 64)(pt 224 64)(line_width 3))
 	)
 	(port
 		(pt 240 80)
 		(output)
 		(text "chan_duties[575..0]" (rect 0 0 96 12)(font "Arial" ))
-		(text "chan_duties[575..0]" (rect 138 75 219 87)(font "Arial" ))
+		(text "chan_duties[575..0]" (rect 138 75 234 87)(font "Arial" ))
 		(line (pt 240 80)(pt 224 80)(line_width 3))
 	)
 	(port
 		(pt 240 96)
 		(output)
 		(text "master_clock_enable" (rect 0 0 103 12)(font "Arial" ))
-		(text "master_clock_enable" (rect 132 91 219 103)(font "Arial" ))
+		(text "master_clock_enable" (rect 132 91 235 103)(font "Arial" ))
 		(line (pt 240 96)(pt 224 96))
 	)
 	(port
 		(pt 240 112)
 		(output)
 		(text "master_out" (rect 0 0 55 12)(font "Arial" ))
-		(text "master_out" (rect 173 107 219 119)(font "Arial" ))
+		(text "master_out" (rect 173 107 228 119)(font "Arial" ))
 		(line (pt 240 112)(pt 224 112))
 	)
 	(port
 		(pt 240 128)
 		(output)
 		(text "pll_scanchain[143..0]" (rect 0 0 103 12)(font "Arial" ))
-		(text "pll_scanchain[143..0]" (rect 132 123 219 135)(font "Arial" ))
+		(text "pll_scanchain[143..0]" (rect 132 123 235 135)(font "Arial" ))
 		(line (pt 240 128)(pt 224 128)(line_width 3))
 	)
 	(port
 		(pt 240 144)
 		(output)
 		(text "pll_perform_reconfig" (rect 0 0 101 12)(font "Arial" ))
-		(text "pll_perform_reconfig" (rect 134 139 219 151)(font "Arial" ))
+		(text "pll_perform_reconfig" (rect 134 139 235 151)(font "Arial" ))
 		(line (pt 240 144)(pt 224 144))
 	)
 	(port
 		(pt 240 160)
 		(output)
 		(text "reset" (rect 0 0 24 12)(font "Arial" ))
-		(text "reset" (rect 199 155 219 167)(font "Arial" ))
+		(text "reset" (rect 199 155 223 167)(font "Arial" ))
 		(line (pt 240 160)(pt 224 160))
 	)
 	(port
 		(pt 240 176)
 		(output)
 		(text "debug[7..0]" (rect 0 0 55 12)(font "Arial" ))
-		(text "debug[7..0]" (rect 173 171 219 183)(font "Arial" ))
+		(text "debug[7..0]" (rect 173 171 228 183)(font "Arial" ))
 		(line (pt 240 176)(pt 224 176)(line_width 3))
 	)
 	(drawing
@@ -911,10 +911,6 @@ applicable agreement for further details.
 	)
 )
 (connector
-	(pt 176 328)
-	(pt 272 328)
-)
-(connector
 	(pt 176 456)
 	(pt 368 456)
 )
@@ -943,49 +939,13 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(text "arrout[63..0]" (rect 2274 392 2334 404)(font "Arial" ))
-	(pt 2336 408)
-	(pt 2200 408)
-	(bus)
-)
-(connector
-	(pt 1728 456)
-	(pt 1896 456)
-	(bus)
-)
-(connector
-	(pt 1744 472)
-	(pt 1896 472)
-	(bus)
-)
-(connector
-	(pt 1792 488)
-	(pt 1896 488)
-)
-(connector
-	(pt 1856 424)
-	(pt 1896 424)
-)
-(connector
 	(pt 1856 240)
 	(pt 1840 240)
-)
-(connector
-	(pt 1856 424)
-	(pt 1856 240)
 )
 (connector
 	(pt 560 440)
 	(pt 632 440)
 	(bus)
-)
-(connector
-	(pt 1832 640)
-	(pt 1832 504)
-)
-(connector
-	(pt 1832 504)
-	(pt 1896 504)
 )
 (connector
 	(pt 1688 256)
@@ -1028,16 +988,8 @@ applicable agreement for further details.
 	(pt 1592 664)
 )
 (connector
-	(pt 1792 488)
-	(pt 1792 664)
-)
-(connector
 	(pt 1640 664)
 	(pt 1792 664)
-)
-(connector
-	(pt 1896 408)
-	(pt 1656 408)
 )
 (connector
 	(pt 1688 240)
@@ -1046,14 +998,6 @@ applicable agreement for further details.
 (connector
 	(pt 1608 336)
 	(pt 1656 336)
-)
-(connector
-	(pt 1656 240)
-	(pt 1656 336)
-)
-(connector
-	(pt 1656 336)
-	(pt 1656 408)
 )
 (connector
 	(pt 1328 552)
@@ -1083,16 +1027,6 @@ applicable agreement for further details.
 (connector
 	(pt 920 800)
 	(pt 944 800)
-)
-(connector
-	(pt 1728 456)
-	(pt 1728 520)
-	(bus)
-)
-(connector
-	(pt 1744 472)
-	(pt 1744 536)
-	(bus)
 )
 (connector
 	(pt 632 440)
@@ -1160,10 +1094,6 @@ applicable agreement for further details.
 (connector
 	(pt 656 328)
 	(pt 656 488)
-)
-(connector
-	(pt 272 328)
-	(pt 656 328)
 )
 (connector
 	(pt 656 328)
@@ -1274,12 +1204,6 @@ applicable agreement for further details.
 	(pt 920 800)
 )
 (connector
-	(text "scanchain_wire" (rect 960 576 1034 588)(font "Arial" ))
-	(pt 896 584)
-	(pt 944 584)
-	(bus)
-)
-(connector
 	(text "pllReconfig_wire" (rect 960 592 1040 604)(font "Arial" ))
 	(pt 896 600)
 	(pt 944 600)
@@ -1291,10 +1215,6 @@ applicable agreement for further details.
 (connector
 	(pt 680 -24)
 	(pt 672 -24)
-)
-(connector
-	(pt 272 -64)
-	(pt 272 328)
 )
 (connector
 	(pt 272 328)
@@ -1329,7 +1249,23 @@ applicable agreement for further details.
 	(pt 680 56)
 )
 (connector
-	(pt 272 -64)
+	(pt 256 328)
+	(pt 256 -64)
+)
+(connector
+	(pt 272 328)
+	(pt 656 328)
+)
+(connector
+	(pt 176 328)
+	(pt 256 328)
+)
+(connector
+	(pt 256 328)
+	(pt 272 328)
+)
+(connector
+	(pt 256 -64)
 	(pt 408 -64)
 )
 (connector
@@ -1337,15 +1273,83 @@ applicable agreement for further details.
 	(pt 672 -64)
 )
 (connector
-	(text "scanchain_wire" (rect 304 24 378 36)(font "Arial" ))
+	(text "pllReconfig_wire" (rect 304 0 384 12)(font "Arial" ))
+	(pt 384 8)
+	(pt 432 8)
+)
+(connector
+	(text "scanchain_wire[143..0]" (rect 280 24 392 36)(font "Arial" ))
 	(pt 384 24)
 	(pt 432 24)
 	(bus)
 )
 (connector
-	(text "pllReconfig_wire" (rect 304 0 384 12)(font "Arial" ))
-	(pt 384 8)
-	(pt 432 8)
+	(text "scanchain_wire[143..0]" (rect 960 576 1072 588)(font "Arial" ))
+	(pt 896 584)
+	(pt 944 584)
+	(bus)
+)
+(connector
+	(text "arrout[63..0]" (rect 2282 392 2342 404)(font "Arial" ))
+	(pt 2344 408)
+	(pt 2208 408)
+	(bus)
+)
+(connector
+	(pt 1856 240)
+	(pt 1856 424)
+)
+(connector
+	(pt 1832 640)
+	(pt 1832 504)
+)
+(connector
+	(pt 1792 664)
+	(pt 1792 488)
+)
+(connector
+	(pt 1728 520)
+	(pt 1728 456)
+	(bus)
+)
+(connector
+	(pt 1744 536)
+	(pt 1744 472)
+	(bus)
+)
+(connector
+	(pt 1656 240)
+	(pt 1656 336)
+)
+(connector
+	(pt 1656 336)
+	(pt 1656 408)
+)
+(connector
+	(pt 1656 408)
+	(pt 1904 408)
+)
+(connector
+	(pt 1856 424)
+	(pt 1904 424)
+)
+(connector
+	(pt 1728 456)
+	(pt 1904 456)
+	(bus)
+)
+(connector
+	(pt 1744 472)
+	(pt 1904 472)
+	(bus)
+)
+(connector
+	(pt 1792 488)
+	(pt 1904 488)
+)
+(connector
+	(pt 1832 504)
+	(pt 1904 504)
 )
 (junction (pt 272 328))
 (junction (pt 1168 296))
@@ -1357,3 +1361,4 @@ applicable agreement for further details.
 (junction (pt 1440 56))
 (junction (pt 1440 80))
 (junction (pt 408 -64))
+(junction (pt 256 328))

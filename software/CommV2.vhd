@@ -48,7 +48,7 @@ signal crcDataLen : integer range 0 to BUF_LEN := 0;
 signal crcRequest : std_logic := '0';
 signal crcReady : std_logic := '0';
 
-signal master : std_logic := '0';
+signal master : std_logic := '1'; --TODO REVERT THIS
 
 type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doPll, s_doInquire, s_prepSync, s_doSync, s_doMaster, s_doSlave, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
@@ -249,10 +249,10 @@ master_out <= master;
 	when s_doPll =>
 		if crcIsCorrect = '1' then
 			pll_scanchain <= dataBuffer(143 downto 0);
+			pll_perform_reconfig <= '1';
 		end if;
 		reply(3 downto 0) := REPLY_SET_PLL;
 		d_state := s_transmitReply;
-		pll_perform_reconfig <= '1';
 		
 	when s_doInquire =>
 		

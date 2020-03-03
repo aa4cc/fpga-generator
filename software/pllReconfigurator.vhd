@@ -19,7 +19,7 @@ end PllReconfigurator;
 architecture rtl of PllReconfigurator is
 
 type states_t is (s_ready, s_shifting, s_done, s_update, s_rearm);
-
+	
 
  
 begin
@@ -28,7 +28,8 @@ begin
  run : process(clock) is
  variable state : states_t := s_ready;
  variable keptChain : std_logic_vector(143 downto 0) := (others => '0');
- variable position : integer range 143 to 0 := 0;
+ constant halfOutputChain : std_logic_vector(143 downto 0) := "000011000000000001000000011100000010000001001000001001000001101100001100000001101100001100000001101100001100000001101100001100000001101100001100";
+ variable position : integer range 143 downto 0 := 0;
  variable clkVar : std_logic := '0';
  begin
  

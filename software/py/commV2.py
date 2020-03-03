@@ -7,20 +7,13 @@ import serial;
 import time;
 import crc8
 
-#master 10
-port = serial.Serial('COM10', 230400, parity= serial.PARITY_NONE) #pozn.: paritu prvni verze generatoru v FPGA nekontroluje, paritni bit jen precte a zahodi (aktualni k 8.4.2018)
+port = serial.Serial('COM5', 230400, parity= serial.PARITY_NONE) 
 
-
-#port.write(bytes([1]))
-#input()
-
-
-
-#port = serial.Serial('COM8', 115200, parity= serial.PARITY_EVEN) #pozn.: paritu prvni verze generatoru v FPGA nekontroluje, paritni bit jen precte a zahodi (aktualni k 8.4.2018)
+testingScanchain = "000011000000000001000000011100000010000001001000001001000001101100001100000001101100001100000001101100001100000001101100001100000001101100001100" #20kHz output
 
 dataArray = []
 for i in range(64):
-    dataArray.append(60);
+    dataArray.append(180);
 
 
 #code taken from previous version of comm
@@ -28,6 +21,12 @@ dataStream = ""
 for number in dataArray:
     ninebit = '{0:09b}'.format(number)      #generator uses 9 bit numbers to set phase and duty!!
     dataStream += ninebit
+
+#comment next line out when sending phases/duties
+dataStream = testingScanchain
+
+print(dataStream)
+
 bytesArray = [dataStream[i:i+8] for i in range(0, len(dataStream), 8)]
 last = bytesArray.pop()
 while len(last)%8 != 0: #appended zeroes will be shifted out of the end of the settings register
@@ -45,22 +44,21 @@ intsArray = [int(i, 2) for i in bytesArray]
 
 CODE_PHASES = [1]
 CODE_DUTIES = [2]
-CODE_PLL = [4] #not yet implemented
+CODE_PLL = [4]
 CODE_INQUIRE_MASTER = [8]
 CODE_SYNCH = [16]
 CODE_SET_MASTER = [32]
 CODE_SET_SLAVE = [64]
 
 
-code = CODE_PHASES   #edit this line
+code = CODE_PLL   #edit this line
 
-if code == CODE_PHASES or code == CODE_DUTIES:
+if code == CODE_PHASES or code == CODE_DUTIES or code == CODE_PLL:
     intsArray = code + intsArray
-elif code == CODE_PLL:
-    print("Not yet implemented");
-    exit();
 else:
     intsArray = code
+
+
 
 print("Going to send ", intsArray)
 
@@ -71,13 +69,15 @@ hash = crc8.crc8()
 hash.update(bytes(intsArray))
 print("Calced crc is ", hash.hexdigest())
 
-#break intsArray:
+#break intsArray: (uncomment to test crc)
 #intsArray[5] = intsArray[5] + 1
-intsArray[0] = intsArray[0] 
+#intsArray[0] = intsArray[0] + 66
 
 port.write(bytes(intsArray) + hash.digest()) #send code, array of data bytes and crc byte
 
 #port.write()
+
+print(len(intsArray))
 
 
 replyByte = port.read();
@@ -103,7 +103,7 @@ if repR == 1:
 elif repR == 2:
     print("Generator says: I received command to SET DUTIES")
 elif repR == 3:
-    print("currently not implemented")
+    print("Generator says: I received command to reconfigure PLL")
 elif repR == 4:
    print("Generator says: I AM MASTER")
 elif repR == 5:
