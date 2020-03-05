@@ -20,9 +20,9 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 256 224)
+	(rect 16 16 256 256)
 	(text "CommV2" (rect 5 0 46 12)(font "Arial" ))
-	(text "inst" (rect 8 192 20 204)(font "Arial" ))
+	(text "inst" (rect 8 224 20 236)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -117,11 +117,18 @@ applicable agreement for further details.
 	(port
 		(pt 240 176)
 		(output)
+		(text "data_ready_internal" (rect 0 0 79 12)(font "Arial" ))
+		(text "data_ready_internal" (rect 140 171 219 183)(font "Arial" ))
+		(line (pt 240 176)(pt 224 176)(line_width 1))
+	)
+	(port
+		(pt 240 192)
+		(output)
 		(text "debug[7..0]" (rect 0 0 43 12)(font "Arial" ))
-		(text "debug[7..0]" (rect 176 171 219 183)(font "Arial" ))
-		(line (pt 240 176)(pt 224 176)(line_width 3))
+		(text "debug[7..0]" (rect 176 187 219 199)(font "Arial" ))
+		(line (pt 240 192)(pt 224 192)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 224 192)(line_width 1))
+		(rectangle (rect 16 16 224 224)(line_width 1))
 	)
 )

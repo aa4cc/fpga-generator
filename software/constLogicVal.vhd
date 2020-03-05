@@ -70,7 +70,7 @@ BEGIN
 
 	LPM_CONSTANT_component : LPM_CONSTANT
 	GENERIC MAP (
-		lpm_cvalue => 1,
+		lpm_cvalue => 0,
 		lpm_hint => "ENABLE_RUNTIME_MOD=NO",
 		lpm_type => "LPM_CONSTANT",
 		lpm_width => 1
@@ -91,11 +91,11 @@ END SYN;
 -- Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 -- Retrieval info: PRIVATE: Radix NUMERIC "10"
 -- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
--- Retrieval info: PRIVATE: Value NUMERIC "1"
+-- Retrieval info: PRIVATE: Value NUMERIC "0"
 -- Retrieval info: PRIVATE: nBit NUMERIC "1"
 -- Retrieval info: PRIVATE: new_diagram STRING "1"
 -- Retrieval info: LIBRARY: lpm lpm.lpm_components.all
--- Retrieval info: CONSTANT: LPM_CVALUE NUMERIC "1"
+-- Retrieval info: CONSTANT: LPM_CVALUE NUMERIC "0"
 -- Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_CONSTANT"
 -- Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "1"
@@ -104,6 +104,6 @@ END SYN;
 -- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal.inc FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal.cmp TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal.bsf TRUE FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal.bsf TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL constLogicVal_inst.vhd FALSE
 -- Retrieval info: LIB_FILE: lpm

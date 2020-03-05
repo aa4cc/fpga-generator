@@ -349,38 +349,10 @@ set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_5
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_7
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM" -to GPIO_2_11
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_10
-set_global_assignment -name VHDL_FILE checkSumShow.vhd
-set_global_assignment -name VHDL_FILE latcher.vhdl
-set_global_assignment -name VHDL_FILE ChannelArray64.vhdl
-set_global_assignment -name VHDL_FILE uartRec.vhd
-set_global_assignment -name VHDL_FILE shiftReg.vhd
-set_global_assignment -name VHDL_FILE setVal333.vhd
-set_global_assignment -name VHDL_FILE setVal111.vhd
-set_global_assignment -name VHDL_FILE setVal.vhd
-set_global_assignment -name VHDL_FILE pll180.vhd
-set_global_assignment -name VHDL_FILE newDivider.vhd
-set_global_assignment -name VHDL_FILE multi.vhd
-set_global_assignment -name VHDL_FILE Channel.vhd
-set_global_assignment -name VHDL_FILE freqCounter.vhd
-set_global_assignment -name VHDL_FILE count.vhd
-set_global_assignment -name VHDL_FILE CommDecoder.vhd
-set_global_assignment -name BDF_FILE ShiftedSignalGenerator.bdf
-set_global_assignment -name CDF_FILE output_files/Chain1.cdf
-set_global_assignment -name QIP_FILE pllreconfig.qip
-set_global_assignment -name QIP_FILE reconfigAid.qip
-set_global_assignment -name VHDL_FILE constantInShifter.vhd
-set_global_assignment -name VHDL_FILE demux.vhd
-set_global_assignment -name BDF_FILE comms.bdf
-set_global_assignment -name VHDL_FILE tristate_test.vhd
-set_global_assignment -name VHDL_FILE output_files/clk_freq_interface.vhdl
-set_global_assignment -name VHDL_FILE bidir_interface1.vhd
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name QIP_FILE constLogicVal.qip
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_8
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_6
-set_global_assignment -name VHDL_FILE uartTr.vhd
-set_global_assignment -name VHDL_FILE CommV2.vhd
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2_9
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_2[9]
 set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
@@ -391,6 +363,35 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name VHDL_FILE checkSumShow.vhd
+set_global_assignment -name VHDL_FILE latcher.vhdl
+set_global_assignment -name VHDL_FILE ChannelArray64.vhdl
+set_global_assignment -name VHDL_FILE uartRec.vhd
+set_global_assignment -name VHDL_FILE shiftReg.vhd
+set_global_assignment -name VHDL_FILE setVal333.vhd
+set_global_assignment -name VHDL_FILE setVal111.vhd
+set_global_assignment -name VHDL_FILE setVal.vhd
+set_global_assignment -name VHDL_FILE pll180.vhd
+set_global_assignment -name VHDL_FILE multi.vhd
+set_global_assignment -name VHDL_FILE Channel.vhd
+set_global_assignment -name VHDL_FILE freqCounter.vhd
+set_global_assignment -name VHDL_FILE count.vhd
+set_global_assignment -name VHDL_FILE CommDecoder.vhd
+set_global_assignment -name BDF_FILE ShiftedSignalGenerator.bdf
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf
+set_global_assignment -name QIP_FILE pllreconfig.qip
+set_global_assignment -name QIP_FILE reconfigAid.qip
+set_global_assignment -name VHDL_FILE constantInShifter.vhd
+set_global_assignment -name BDF_FILE comms.bdf
+set_global_assignment -name VHDL_FILE tristate_test.vhd
+set_global_assignment -name VHDL_FILE output_files/clk_freq_interface.vhdl
+set_global_assignment -name VHDL_FILE bidir_interface1.vhd
+set_global_assignment -name QIP_FILE constLogicVal.qip
+set_global_assignment -name VHDL_FILE uartTr.vhd
+set_global_assignment -name VHDL_FILE CommV2.vhd
 set_global_assignment -name VHDL_FILE outClockEnable.vhd
 set_global_assignment -name VHDL_FILE pllReconfigurator.vhd
+set_global_assignment -name VHDL_FILE mux.vhd
+set_global_assignment -name VHDL_FILE clock_divider.vhd
+set_global_assignment -name VHDL_FILE TristateDemux.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

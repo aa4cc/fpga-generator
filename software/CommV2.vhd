@@ -25,6 +25,9 @@ ENTITY CommV2 IS
 		
 		reset : out std_logic;
 		
+		data_ready_internal : out std_logic;
+		
+		
 		debug :	out std_logic_vector(7 downto 0)
 	);
 END CommV2; 
@@ -125,6 +128,7 @@ master_out <= master;
 	reset <= '0';
 	master_clock_enable <= '1';
 	pll_perform_reconfig <= '0';
+	data_ready_internal <= '0';
   
 	case d_state is
 	
@@ -235,6 +239,7 @@ master_out <= master;
 		
 		if crcIsCorrect = '1' then
 			chan_phases <= dataBuffer(575 downto 0);
+			data_ready_internal <= '1';
 		end if;
 		reply(3 downto 0) := REPLY_SET_PHASES;
 		d_state := s_transmitReply;
@@ -242,6 +247,7 @@ master_out <= master;
 	when s_doDuties =>
 		if crcIsCorrect = '1' then
 			chan_duties <= dataBuffer(575 downto 0);
+			data_ready_internal <= '1';
 		end if;
 		reply(3 downto 0) := REPLY_SET_DUTIES;
 		d_state := s_transmitReply;

@@ -5,13 +5,10 @@ use ieee.std_logic_unsigned.all;
  
 entity Demux is
 port (
-     a : in std_logic; 
-	  b : in std_logic;
+     input : in std_logic; 
 	  selector : in std_logic;
-	  a0 : out std_logic;
-	  b0 : out std_logic;
-	  a1 : out std_logic;
-	  b1 : out std_logic
+	  outWhen0 : out std_logic;
+	  outWhen1 : out std_logic
 	  );
 end Demux;
  
