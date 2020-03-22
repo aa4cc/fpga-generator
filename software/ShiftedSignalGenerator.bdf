@@ -108,7 +108,7 @@ applicable agreement for further details.
 	(input)
 	(rect -216 448 -48 464)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "GPIO_2_8" (rect 5 0 56 12)(font "Arial" ))
+	(text "GPIO_2_8" (rect 5 0 55 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -123,7 +123,7 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 2368 456 4363 472)
+	(rect 2472 360 4467 376)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "GPIO_0_1,GPIO_0_3,GPIO_0_5,GPIO_0_7,GPIO_0_9,GPIO_0_11,GPIO_0_13,GPIO_0_15,GPIO_0_17,GPIO_0_19,GPIO_0_21,GPIO_0_23,GPIO_0_25,GPIO_0_27,GPIO_0_29,GPIO_0_31,GPIO_0_32,GPIO_0_30,GPIO_0_28,GPIO_0_26,GPIO_0_24,GPIO_0_22,GPIO_0_20,GPIO_0_18,GPIO_0_16,GPIO_0_14,GPIO_0_12,GPIO_0_10,GPIO_0_8,GPIO_0_6,GPIO_0_4,GPIO_0_2" (rect 90 0 1959 12)(font "Arial" ))
 	(pt 0 8)
@@ -136,11 +136,11 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 2456 536 2520 560))
+	(annotation_block (location)(rect 2560 440 2624 464))
 )
 (pin
 	(output)
-	(rect 2368 432 4363 448)
+	(rect 2472 336 4467 352)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "GPIO_1_1,GPIO_1_3,GPIO_1_5,GPIO_1_7,GPIO_1_9,GPIO_1_11,GPIO_1_13,GPIO_1_15,GPIO_1_17,GPIO_1_19,GPIO_1_21,GPIO_1_23,GPIO_1_25,GPIO_1_27,GPIO_1_29,GPIO_1_31,GPIO_1_32,GPIO_1_30,GPIO_1_28,GPIO_1_26,GPIO_1_24,GPIO_1_22,GPIO_1_20,GPIO_1_18,GPIO_1_16,GPIO_1_14,GPIO_1_12,GPIO_1_10,GPIO_1_8,GPIO_1_6,GPIO_1_4,GPIO_1_2" (rect 90 0 1959 12)(font "Arial" ))
 	(pt 0 8)
@@ -153,7 +153,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 2600 320 2752 368))
+	(annotation_block (location)(rect 2704 224 2856 272))
 )
 (pin
 	(output)
@@ -272,6 +272,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect 1560 368 1616 384))
 )
 (pin
 	(bidir)
@@ -990,7 +991,7 @@ applicable agreement for further details.
 		(pt 152 32)
 		(output)
 		(text "clk_out" (rect 0 0 35 12)(font "Arial" ))
-		(text "clk_out" (rect 102 27 131 39)(font "Arial" ))
+		(text "clk_out" (rect 102 27 137 39)(font "Arial" ))
 		(line (pt 152 32)(pt 136 32))
 	)
 	(parameter
@@ -1025,7 +1026,7 @@ applicable agreement for further details.
 		(pt 152 32)
 		(output)
 		(text "clk_out" (rect 0 0 35 12)(font "Arial" ))
-		(text "clk_out" (rect 102 27 131 39)(font "Arial" ))
+		(text "clk_out" (rect 102 27 137 39)(font "Arial" ))
 		(line (pt 152 32)(pt 136 32))
 	)
 	(parameter
@@ -1208,25 +1209,49 @@ applicable agreement for further details.
 		(rectangle (rect 16 16 160 64))
 	)
 )
+(symbol
+	(rect 2312 528 2528 608)
+	(text "TopGpioMapper" (rect 5 0 80 12)(font "Arial" ))
+	(text "inst20" (rect 8 64 37 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "channelsOut[63..0]" (rect 0 0 93 12)(font "Arial" ))
+		(text "channelsOut[63..0]" (rect 21 27 114 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "chainingModeOn" (rect 0 0 80 12)(font "Arial" ))
+		(text "chainingModeOn" (rect 21 43 101 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 216 32)
+		(output)
+		(text "gpio1[31..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "gpio1[31..0]" (rect 147 27 204 39)(font "Arial" ))
+		(line (pt 216 32)(pt 200 32)(line_width 3))
+	)
+	(port
+		(pt 216 48)
+		(output)
+		(text "gpio2[31..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "gpio2[31..0]" (rect 147 43 204 55)(font "Arial" ))
+		(line (pt 216 48)(pt 200 48)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 200 64))
+	)
+)
 (connector
 	(pt 560 456)
 	(pt 616 456)
 )
 (connector
-	(text "arrout[63..32]" (rect 2288 448 2354 460)(font "Arial" ))
-	(pt 2264 464)
-	(pt 2368 464)
-	(bus)
-)
-(connector
 	(pt 272 440)
 	(pt 368 440)
-)
-(connector
-	(text "arrout[31..0]" (rect 2288 424 2348 436)(font "Arial" ))
-	(pt 2264 440)
-	(pt 2368 440)
-	(bus)
 )
 (connector
 	(pt 560 440)
@@ -1795,6 +1820,18 @@ applicable agreement for further details.
 (connector
 	(pt 1672 648)
 	(pt 1672 816)
+)
+(connector
+	(text "arrout[63..32]" (rect 2392 352 2458 364)(font "Arial" ))
+	(pt 2368 368)
+	(pt 2472 368)
+	(bus)
+)
+(connector
+	(text "arrout[31..0]" (rect 2392 328 2452 340)(font "Arial" ))
+	(pt 2368 344)
+	(pt 2472 344)
+	(bus)
 )
 (junction (pt 1656 336))
 (junction (pt 928 296))
