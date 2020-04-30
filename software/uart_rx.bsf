@@ -47,8 +47,8 @@ applicable agreement for further details.
 	(port
 		(pt 192 48)
 		(output)
-		(text "send" (rect 0 0 18 12)(font "Arial" ))
-		(text "send" (rect 153 43 171 55)(font "Arial" ))
+		(text "data_valid" (rect 0 0 40 12)(font "Arial" ))
+		(text "data_valid" (rect 131 43 171 55)(font "Arial" ))
 		(line (pt 192 48)(pt 176 48)(line_width 1))
 	)
 	(port

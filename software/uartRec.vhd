@@ -12,7 +12,7 @@ port (
      clock : in std_logic; 
      --reset : in std_logic; 
       data : out std_logic_vector(DATA_BITS-1 downto 0); 
-      send : out std_logic; 
+      data_valid : out std_logic; 
       fe   : out std_logic; 
       rxd  : in std_logic; 
 		data_out : out std_logic;
@@ -41,7 +41,7 @@ prijem : process (clock) is --, reset) is
              rxd_latch <= rxd;
              case rx_state is
                  when rx_ready =>
-                      send <= '0';
+                      data_valid <= '0';
                       fe <= '0';
                       if rxd_latch = '0' then
                                 rx_bit_cntr <= DATA_BITS;
@@ -90,7 +90,7 @@ prijem : process (clock) is --, reset) is
                             rx_state <= rx_ready;
 									 --data <= rx_data;
                               fe <= '1';
-										send <= '1';
+										data_valid <= '1';
                          else
                            rx_br_cntr <= rx_br_cntr - 1; 
                          end if;

@@ -7,13 +7,13 @@ import serial;
 import time;
 import crc8
 
-port = serial.Serial('COM5', 230400, parity= serial.PARITY_NONE) 
+#port = serial.Serial('COM5', 230400, parity= serial.PARITY_NONE) 
 
 testingScanchain = "000011000000000001000000011100000010000001001000001001000001101100001100000001101100001100000001101100001100000001101100001100000001101100001100" #20kHz output
 
 dataArray = []
 for i in range(64):
-    dataArray.append(180);
+    dataArray.append(i+5);
 
 
 #code taken from previous version of comm
@@ -23,7 +23,7 @@ for number in dataArray:
     dataStream += ninebit
 
 #comment next line out when sending phases/duties
-dataStream = testingScanchain
+#dataStream = testingScanchain
 
 print(dataStream)
 
@@ -51,7 +51,7 @@ CODE_SET_MASTER = [32]
 CODE_SET_SLAVE = [64]
 
 
-code = CODE_PLL   #edit this line
+code = CODE_PHASES   #edit this line
 
 if code == CODE_PHASES or code == CODE_DUTIES or code == CODE_PLL:
     intsArray = code + intsArray

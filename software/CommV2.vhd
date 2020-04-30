@@ -18,17 +18,14 @@ ENTITY CommV2 IS
 		
 		master_clock_enable : out std_logic;
 		
-		master_out : out std_logic;
+		master_in : in std_logic;
 		
 		pll_scanchain : out std_logic_vector(143 downto 0);
 		pll_perform_reconfig : out std_logic;
 		
 		reset : out std_logic;
 		
-		data_ready_internal : out std_logic;
-		
-		
-		debug :	out std_logic_vector(7 downto 0)
+		trigger_internal : out std_logic
 	);
 END CommV2; 
 
@@ -51,15 +48,14 @@ signal crcDataLen : integer range 0 to BUF_LEN := 0;
 signal crcRequest : std_logic := '0';
 signal crcReady : std_logic := '0';
 
-signal master : std_logic := '1'; --TODO REVERT THIS
+signal master : std_logic := '0';
 
-type dStates_t is (s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doPll, s_doInquire, s_prepSync, s_doSync, s_doMaster, s_doSlave, s_transmitReply);  
+type dStates_t is(s_ready,s_gotCode, s_unknownCode, s_dataByte, s_requestCrc, s_crcByte, s_crcWaitR, s_evaluate, s_doPhases, s_doDuties, s_doPll, s_doInquire, s_prepSync, s_doSync, s_transmitReply);  
 type cStates_t is (s_ready, s_calculating, s_shift, s_complete);
 
 begin
 
-debug <= crcSig;
-master_out <= master;
+master <= master_in;
 
  decode : process(CLK) is
 
@@ -128,7 +124,7 @@ master_out <= master;
 	reset <= '0';
 	master_clock_enable <= '1';
 	pll_perform_reconfig <= '0';
-	data_ready_internal <= '0';
+	trigger_internal <= '0';
   
 	case d_state is
 	
@@ -228,9 +224,9 @@ master_out <= master;
 			when CODE_SYNC_DIVIDERS =>
 				d_state := s_prepSync;
 			when CODE_SET_MASTER =>
-				d_state := s_doMaster;
+				d_state := s_unknownCode; --master/slave mode now implemented via hw switch
 			when CODE_SET_SLAVE =>
-				d_state := s_doSlave;
+				d_state := s_unknownCode; --master/slave mode now implemented via hw switch
 			when others =>
 				d_state := s_unknownCode;
 		end case;
@@ -239,7 +235,7 @@ master_out <= master;
 		
 		if crcIsCorrect = '1' then
 			chan_phases <= dataBuffer(575 downto 0);
-			data_ready_internal <= '1';
+			trigger_internal <= '1';
 		end if;
 		reply(3 downto 0) := REPLY_SET_PHASES;
 		d_state := s_transmitReply;
@@ -247,7 +243,7 @@ master_out <= master;
 	when s_doDuties =>
 		if crcIsCorrect = '1' then
 			chan_duties <= dataBuffer(575 downto 0);
-			data_ready_internal <= '1';
+			trigger_internal <= '1';
 		end if;
 		reply(3 downto 0) := REPLY_SET_DUTIES;
 		d_state := s_transmitReply;
@@ -293,20 +289,6 @@ master_out <= master;
 		end if;
 			
 		syncCounter := syncCounter + 1;
-	
-	when s_doMaster =>
-		if crcIsCorrect = '1' then
-			master <= '1';
-		end if;
-		reply(3 downto 0) := REPLY_SET_MASTER;
-		d_state := s_transmitReply;
-	
-	when s_doSlave =>
-		if crcIsCorrect = '1' then
-			master <= '0';
-		end if;
-		reply(3 downto 0) := REPLY_SET_SLAVE;
-		d_state := s_transmitReply;
 	
 	when s_transmitReply =>
 		 

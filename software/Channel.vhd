@@ -7,7 +7,7 @@ ENTITY Channel IS
 	PORT
 	(
 		CLK_LOGIC : in std_logic;
-		CLK_FREQ  :  in std_logic;
+		CLK_REF  :  in std_logic;
 		PHASE_SHIFT_IN : in std_logic_vector(8 downto 0);
 		PULSE_WIDTH_IN : in std_logic_vector(8 downto 0);
 		RESET : in std_logic;
@@ -17,7 +17,7 @@ END Channel;
 
 architecture arch1 of Channel is
 
---signal CLK_FREQ : std_logic := '0';
+--signal CLK_REF : std_logic := '0';
 
 
 signal phase_shift  : integer range 0 to 360 := 0;
@@ -67,7 +67,7 @@ OUT_SIGNAL <= duty_on; --and duty_enable;
 	  
 	  if rising_edge(CLK_LOGIC) then
 			if counting = '0' then
-				if CLK_FREQ = '1' and lastFreq = '0' then
+				if CLK_REF = '1' and lastFreq = '0' then
 					if phase_shift = 0 then
 						duty_begin <= '1';
 					else
@@ -90,7 +90,7 @@ OUT_SIGNAL <= duty_on; --and duty_enable;
 				end if;
 			end if;
 	  
-	  lastFreq := CLK_FREQ;
+	  lastFreq := CLK_REF;
 	  duty_enable <= not(countingLag);
 	  countingLag := counting;
 	  --duty_begin <= counting;
