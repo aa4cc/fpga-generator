@@ -431,82 +431,6 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 960 328 1160 440)
-	(text "uart_tx" (rect 5 0 39 12)(font "Arial" ))
-	(text "inst3" (rect 8 96 31 108)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "clock" (rect 0 0 25 12)(font "Arial" ))
-		(text "clock" (rect 21 27 46 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "start" (rect 0 0 22 12)(font "Arial" ))
-		(text "start" (rect 21 43 43 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
-		(text "data[data_bits-1..0]" (rect 21 59 116 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64)(line_width 3))
-	)
-	(port
-		(pt 200 32)
-		(output)
-		(text "trx" (rect 0 0 12 12)(font "Arial" ))
-		(text "trx" (rect 169 27 181 39)(font "Arial" ))
-		(line (pt 200 32)(pt 184 32))
-	)
-	(port
-		(pt 200 48)
-		(output)
-		(text "ready" (rect 0 0 28 12)(font "Arial" ))
-		(text "ready" (rect 156 43 184 55)(font "Arial" ))
-		(line (pt 200 48)(pt 184 48))
-	)
-	(port
-		(pt 200 64)
-		(output)
-		(text "sent" (rect 0 0 21 12)(font "Arial" ))
-		(text "sent" (rect 162 59 183 71)(font "Arial" ))
-		(line (pt 200 64)(pt 184 64))
-	)
-	(parameter
-		"DATA_BITS"
-		"8"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"STOP_BITS"
-		"1"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"UART_BAUD_RATE"
-		"230400"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"TARGET_MCLK"
-		"50000000"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"PARITY_MODE"
-		"1"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 184 96))
-	)
-	(annotation_block (parameter)(rect 936 424 1176 440))
-)
-(symbol
 	(rect 1336 632 1384 664)
 	(text "NOT" (rect 1 0 21 10)(font "Arial" (font_size 6)))
 	(text "inst2" (rect 3 21 26 33)(font "Arial" ))
@@ -1158,79 +1082,6 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 368 408 560 552)
-	(text "uart_rx" (rect 5 0 39 12)(font "Arial" ))
-	(text "inst" (rect 8 128 25 140)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "clock" (rect 0 0 25 12)(font "Arial" ))
-		(text "clock" (rect 21 27 46 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "rxd" (rect 0 0 15 12)(font "Arial" ))
-		(text "rxd" (rect 21 43 36 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 192 32)
-		(output)
-		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
-		(text "data[data_bits-1..0]" (rect 91 27 171 39)(font "Arial" ))
-		(line (pt 192 32)(pt 176 32)(line_width 3))
-	)
-	(port
-		(pt 192 48)
-		(output)
-		(text "data_valid" (rect 0 0 50 12)(font "Arial" ))
-		(text "data_valid" (rect 129 43 171 55)(font "Arial" ))
-		(line (pt 192 48)(pt 176 48))
-	)
-	(port
-		(pt 192 64)
-		(output)
-		(text "fe" (rect 0 0 10 12)(font "Arial" ))
-		(text "fe" (rect 163 59 171 71)(font "Arial" ))
-		(line (pt 192 64)(pt 176 64))
-	)
-	(port
-		(pt 192 80)
-		(output)
-		(text "data_out" (rect 0 0 42 12)(font "Arial" ))
-		(text "data_out" (rect 136 75 171 87)(font "Arial" ))
-		(line (pt 192 80)(pt 176 80))
-	)
-	(port
-		(pt 192 96)
-		(output)
-		(text "data_out_clk" (rect 0 0 62 12)(font "Arial" ))
-		(text "data_out_clk" (rect 119 91 171 103)(font "Arial" ))
-		(line (pt 192 96)(pt 176 96))
-	)
-	(parameter
-		"DATA_BITS"
-		"8"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"UART_BAUD_RATE"
-		"230400"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"TARGET_MCLK"
-		"50000000"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 176 128))
-	)
-	(annotation_block (parameter)(rect 304 344 544 400))
-)
-(symbol
 	(rect 1688 304 1840 384)
 	(text "clock_divider" (rect 5 0 69 12)(font "Arial" ))
 	(text "inst10" (rect 8 64 37 76)(font "Arial" ))
@@ -1264,6 +1115,127 @@ applicable agreement for further details.
 		(rectangle (rect 16 16 136 64))
 	)
 	(annotation_block (parameter)(rect 1688 264 1923 292))
+)
+(symbol
+	(rect 368 408 560 488)
+	(text "uart_rx" (rect 5 0 39 12)(font "Arial" ))
+	(text "inst" (rect 8 64 25 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clock" (rect 0 0 25 12)(font "Arial" ))
+		(text "clock" (rect 21 27 46 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "rxd" (rect 0 0 15 12)(font "Arial" ))
+		(text "rxd" (rect 21 43 36 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 192 32)
+		(output)
+		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
+		(text "data[data_bits-1..0]" (rect 91 27 171 39)(font "Arial" ))
+		(line (pt 192 32)(pt 176 32)(line_width 3))
+	)
+	(port
+		(pt 192 48)
+		(output)
+		(text "data_valid" (rect 0 0 50 12)(font "Arial" ))
+		(text "data_valid" (rect 129 43 171 55)(font "Arial" ))
+		(line (pt 192 48)(pt 176 48))
+	)
+	(parameter
+		"DATA_BITS"
+		"8"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"UART_BAUD_RATE"
+		"230400"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"TARGET_MCLK"
+		"50000000"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 176 64))
+	)
+	(annotation_block (parameter)(rect 304 344 544 400))
+)
+(symbol
+	(rect 960 328 1160 440)
+	(text "uart_tx" (rect 5 0 39 12)(font "Arial" ))
+	(text "inst3" (rect 8 96 31 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clock" (rect 0 0 25 12)(font "Arial" ))
+		(text "clock" (rect 21 27 46 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "start" (rect 0 0 22 12)(font "Arial" ))
+		(text "start" (rect 21 43 43 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "data[data_bits-1..0]" (rect 0 0 95 12)(font "Arial" ))
+		(text "data[data_bits-1..0]" (rect 21 59 116 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 200 32)
+		(output)
+		(text "trx" (rect 0 0 12 12)(font "Arial" ))
+		(text "trx" (rect 169 27 179 39)(font "Arial" ))
+		(line (pt 200 32)(pt 184 32))
+	)
+	(port
+		(pt 200 48)
+		(output)
+		(text "ready" (rect 0 0 28 12)(font "Arial" ))
+		(text "ready" (rect 156 43 179 55)(font "Arial" ))
+		(line (pt 200 48)(pt 184 48))
+	)
+	(parameter
+		"DATA_BITS"
+		"8"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"STOP_BITS"
+		"1"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"UART_BAUD_RATE"
+		"230400"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"TARGET_MCLK"
+		"50000000"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"PARITY_MODE"
+		"1"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 184 96))
+	)
+	(annotation_block (parameter)(rect 936 424 1176 440))
 )
 (connector
 	(pt 560 456)

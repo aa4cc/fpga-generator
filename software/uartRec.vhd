@@ -13,10 +13,8 @@ port (
      --reset : in std_logic; 
       data : out std_logic_vector(DATA_BITS-1 downto 0); 
       data_valid : out std_logic; 
-      fe   : out std_logic; 
-      rxd  : in std_logic; 
-		data_out : out std_logic;
-		data_out_clk : out std_logic);
+      rxd  : in std_logic
+		);
 end uart_rx;
  
 architecture rtl of uart_rx is
@@ -42,7 +40,7 @@ prijem : process (clock) is --, reset) is
              case rx_state is
                  when rx_ready =>
                       data_valid <= '0';
-                      fe <= '0';
+                    
                       if rxd_latch = '0' then
                                 rx_bit_cntr <= DATA_BITS;
                                 rx_state <= rx_start_bit;
@@ -70,8 +68,7 @@ prijem : process (clock) is --, reset) is
                         if rx_br_cntr = 0 then
                            if rx_bit_cntr /= 0 then
                                  rx_data(DATA_BITS - rx_bit_cntr) <= rxd_latch;
-											data_out <= rxd_latch;
-											data_out_clk <= '1';
+											
                                  rx_br_cntr <= TARGET_MCLK/UART_BAUD_RATE-1;
 											if rx_bit_cntr = 1 then
 												rx_state <= rx_stop_bit;
@@ -83,13 +80,12 @@ prijem : process (clock) is --, reset) is
                            end if;
                        else
                          rx_br_cntr <= rx_br_cntr - 1;
-								 data_out_clk <= '0';
                        end if; 
                    when rx_stop_bit =>
                         if rx_br_cntr = 0 then
                             rx_state <= rx_ready;
 									 --data <= rx_data;
-                              fe <= '1';
+                            
 										data_valid <= '1';
                          else
                            rx_br_cntr <= rx_br_cntr - 1; 

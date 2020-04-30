@@ -58,13 +58,6 @@ applicable agreement for further details.
 		(text "ready" (rect 156 43 179 55)(font "Arial" ))
 		(line (pt 200 48)(pt 184 48)(line_width 1))
 	)
-	(port
-		(pt 200 64)
-		(output)
-		(text "sent" (rect 0 0 16 12)(font "Arial" ))
-		(text "sent" (rect 163 59 179 71)(font "Arial" ))
-		(line (pt 200 64)(pt 184 64)(line_width 1))
-	)
 	(parameter
 		"DATA_BITS"
 		"8"

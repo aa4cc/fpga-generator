@@ -16,8 +16,7 @@ port (
       start : in std_logic;
       data  : in std_logic_vector(DATA_BITS-1 downto 0);
       trx   : out std_logic;
-		ready : out std_logic;
-      sent  : out std_logic
+		ready : out std_logic
   );
  
 end uart_tx;  
@@ -98,7 +97,6 @@ transmit : process(clock) is
             
         when tx_stop_bit =>
           if tx_br_cntr = 0 then
-              sent <= '1';
 				  tx_state <= tx_ready;
           else
             tx_br_cntr <= tx_br_cntr - 1;
