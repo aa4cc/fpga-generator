@@ -8,8 +8,7 @@ generic (
 DATA_BITS : integer := 8;
 STOP_BITS : integer := 1;
 UART_BAUD_RATE : integer := 230400;
-TARGET_MCLK : integer := 50000000;
-PARITY_MODE  : integer := 1);
+TARGET_MCLK : integer := 50000000);
  
 port (
       clock : in std_logic;
@@ -30,26 +29,13 @@ signal tx_state : tx_states_t := tx_ready;
 signal tx_br_cntr : integer range 0 to TARGET_MCLK / (UART_BAUD_RATE-1);
 signal tx_bit_cntr : integer range 0 to DATA_BITS := DATA_BITS;
 signal tx_stop_cntr : integer range 0 to STOP_BITS := STOP_BITS;
-signal parity_bit : std_ulogic;
+
 signal bit_clock : std_logic := '0';
  
-function PARITY (X : std_logic_vector) return std_logic is 
- 
-variable TMP : std_logic := '0';   -- local variable
- 
-begin
-  for J in X'range loop 
-         TMP := TMP xor X(J);     --  parity bit computation
-  end loop;                  -- working with any length
-return TMP;                -- returns computational value in TMP
- 
-end PARITY; 
  
  
 begin
   
-parity_bit <= PARITY(data) when PARITY_MODE = 1 else not PARITY(data);
- 
 transmit : process(clock) is
   begin
 
