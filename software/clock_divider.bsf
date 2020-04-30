@@ -46,7 +46,7 @@ applicable agreement for further details.
 	)
 	(parameter
 		"clock_divisor_factor"
-		"100"
+		"360"
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing

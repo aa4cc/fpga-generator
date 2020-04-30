@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
  
 entity clock_divider  is
-    generic (clock_divisor_factor: integer   := 100);
+    generic (clock_division_factor: integer   := 360);
     port (
         clk_in : in  std_logic;
 		  reset : in  std_logic;
@@ -21,7 +21,7 @@ begin
 				temp <= '0';
 		  else
 			  if rising_edge(clk_in) then
-					if (counter = (clock_divisor_factor-1)) then
+					if (counter = ((clock_division_factor/2)-1)) then
 						 temp <= not temp;
 						 counter <= 0;
 					else
