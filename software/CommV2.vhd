@@ -272,7 +272,11 @@ master <= master_in;
 		else
 			reply(3 downto 0) := REPLY_SYNC_OK;
 			syncCounter := 0;
-			d_state := s_doSync;
+			if crcIsCorrect = '1' then
+				d_state := s_doSync;
+			else
+				d_state := s_transmitReply;
+			end ifů
 		end if;
 		
 	when s_doSync =>
