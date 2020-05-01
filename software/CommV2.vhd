@@ -276,7 +276,7 @@ master <= master_in;
 				d_state := s_doSync;
 			else
 				d_state := s_transmitReply;
-			end ifů
+			end if;
 		end if;
 		
 	when s_doSync =>
