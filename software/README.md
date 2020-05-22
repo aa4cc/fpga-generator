@@ -1,6 +1,6 @@
-This document is currently outdated. Will replace shortly.
+WIP
 
-
+<!--- 
 # FPGA Generator of phase-shifted digital signals
 
 This folder contains a Quartus project implementing a multi-channel generator of phase-shifted signals. The duty cycle of each channel, as well as the relative phase shift between channels can be set. In addition, the frequency (which is shared by all channels) can be changed. 
@@ -212,3 +212,5 @@ The resulting scanchain in bits is:
 We need to split it into bytes and send those in reverse order. We need to precede those bytes by opencode and end on closecode. The resulting stream of bytes in its entirety will be as follows:
 
 255 255 242 134 13 24 54 96 216 128 97 3 134 13 18 36 16 56 32 0 6 255 255 243
+
+---!> 
