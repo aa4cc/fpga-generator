@@ -11,7 +11,7 @@ When only 64 outputs are needed, the setup is fairly straightforward:
 4. Locate the dip switches on top of the board. Switch 0 is used to choose between standalone and synchronized modes of operation. Set it to the upper position. LED0 on top of the board will start blinking, signalizing that the device is in standalone mode.
 5. The device is now set up, you may now set phases and duties of its output channels. See [communication](COMMUNICATION.md) for details.
 
-##Setting up synchronized generators (up to 256 outputs, using provided PCB)
+## Setting up synchronized generators (up to 256 outputs, using provided PCB)
 
 When more outputs are required, you will need to synchronize several generators. This section assumes that you will be using two to four DE0-Nano boards.
 
