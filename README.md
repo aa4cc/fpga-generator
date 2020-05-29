@@ -12,8 +12,9 @@ The design of the device is modular and allows for multiple devices of the same 
 When devices are synchronised in this way, they need to be connected via a custom PCB shield designed for this purpose.
 Design files for the shield are available in the chaining_shield folder.
 
-For a guide on how to set up the generator, see [Setting up the generator](SETUP.md)
+For a guide on how to set up the generator, see [Setting up the generator](SETUP.md).
 
+After the generator is set up, see [Communication](COMMUNICATION.md) for details on how to use the generator.
 
 
 
