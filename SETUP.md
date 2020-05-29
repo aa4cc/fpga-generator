@@ -1,7 +1,7 @@
 
-#Setting up the generator
+# Setting up the generator
 
-##Setting up a standalone generator (up to 64 outputs)
+## Setting up a standalone generator (up to 64 outputs)
 
 When only 64 outputs are needed, the setup is fairly straightforward:
 
@@ -27,7 +27,7 @@ Once you have the shields, perform steps 1 to 3 of the previous section for each
 9. The devices are set up, you may now set phases and duties of their output channels. See [communication](COMMUNICATION.md) for details. 
 
 
-##Going beyond 256 channels
+## Going beyond 256 channels
 
 If you need more than 256 channels, you will have to modify the synchronization shield PCB by adding more output connectors. 
 
