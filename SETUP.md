@@ -24,7 +24,7 @@ Once you have the shields, perform steps 1 to 3 of the previous section for each
 6. For all devices apart from the master, move switch 1 to the upper position. Their LED0s should be OFF, signalizing that the devices are in slave mode.
 7. Connect a synchronization shield to each device. Interconnect their coaxial connectors as described in [chaining_shield](chaining_shield) readme.
 8. Connect the synchronization shields by a flat cable.
-9. The devices are set up, you may now set phases and duties of their output channels. See [communication](COMMUNICATION.md) for details. 
+9. The devices are set up, you may now set phases and duties of their output channels. See [communication](COMMUNICATION.md) for details. You will likely need to issue a command to synchronize dividers, as will be discussed therein.
 
 
 ## Going beyond 256 channels
