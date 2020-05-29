@@ -19,7 +19,7 @@ Not all components shown in the schematic need to be populated. In particular:
 * Resistor R1 is intended as termination resistor for impedance matching. When the device was tested at 40kHz, it functioned without it, so I left it unpopulated. 
 * Coaxial connectors labeled M1 to M4 only need to be populated on the master board. The boards which will be used on slave devices only need their S connector populated.
 
-**If you do decide to populate resistor R1**, make sure that you choose a suitably high value!  The pins feeding the clock outputs (labeled M1 to M4) have series 50 ohm resistors enabled in the Quartus project design files. Consult the cyclone IV datasheet to make sure that your chosen value will not decrease the amlitude of the signal below the logic level threshold. (The I/Os operate at 3,3V standard)
+**If you do decide to populate resistor R1**, make sure that you choose a suitably high value!  The pins feeding the clock outputs (labeled M1 to M4) have series 50 ohm resistors enabled in the Quartus project design files. Consult the cyclone IV datasheet to make sure that your chosen value will not decrease the amplitude of the signal below the logic level threshold. (The I/Os operate at 3,3V standard)
 
 
 
