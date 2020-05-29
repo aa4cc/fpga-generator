@@ -91,7 +91,15 @@ When the generator receives an invalid code, it will send a reply with low nibbl
 This needs to be kept in mind when communicating to the device.
 
 
+# Communicating to synchronized generators
 
+When you are using multiple generators, there are a couple differences:
+
+Firstly, when you wish to change the output frequency of all synchronized generators, you only need to send the PLL reconfig command to the master device. Sending it to slave devices has no effect.
+
+Secondly, when you send a Set Phases or Set Duties command, the outputs of a device that is not in standalone mode are not updated immediately. To cause the outputs of a device to update, the user needs to drive the TRIGGER EXTERNAL (mapped to pin G15 of DE0-Nano) low (the pin has a pull-up resistor enabled). This is done to make the update to new settings synchronous to all devices.
+
+On the [chaining_shield](chaining_shield), this pin is routed to one of the outputs of the flat cable connector SV1, specifically, to the right pin of the middle row. 
 
 
 
