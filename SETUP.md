@@ -7,7 +7,7 @@ When only 64 outputs are needed, the setup is fairly straightforward:
 
 1. Download the Quartus II project from folder [software](software).
 2. Use Quartus II. to compile it and program it into your De0-Nano kit. In case of compatibility issues: Quartus II. version 13.0.1. was used to develop the generator.
-3. Connect the two UART lines to the device. The generator receives data via pin A8 and transmits via pin D3.
+3. Connect the two UART lines to the device. The generator receives data via pin A8 and transmits via pin D3. Set your BAUD rate to 230400.
 4. Locate the dip switches on top of the board. Switch 0 is used to choose between standalone and synchronized modes of operation. Set it to the upper position. LED0 on top of the board will start blinking, signalizing that the device is in standalone mode.
 5. The device is now set up, you may now set phases and duties of its output channels. See [communication](COMMUNICATION.md) for details.
 
