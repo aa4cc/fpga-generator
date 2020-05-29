@@ -16,6 +16,8 @@ For a guide on how to set up the generator, see [Setting up the generator](SETUP
 
 After the generator is set up, see [Communication](COMMUNICATION.md) for details on how to use the generator.
 
+The output pins of the channels of the generator, as well as other pin assignments, are provided in [Mappings](MAPPINGS.md).
+
 
 
 
