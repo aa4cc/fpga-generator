@@ -37,7 +37,23 @@ The channel outputs of the generator are all routed to the upper GPIO headers:
 | 31 | T14 | 63 | A2  |
 | 32 | T15 | 64 | C3  |
 
+The remaining used pins are
 
+|USE|PIN|
+|------------------|-----|
+| UART IN          | A8  |
+| UART OUT         | D3  |
+| CLK OUT 1        | B16 |
+| CLK OUT 2        | D16 |
+| CLK OUT 3        | D14 |
+| CLK OUT 4        | G16 |
+| CLK IN           | E15 |
+| TRIGGER EXTERNAL | G15 |
+| RESET BIDIR      | F14 |
+| CHAINING SWITCH  | M1  |
+| MASTER SWITCH    | T8  |
+| DEVICE LED       | A15 |
+| SHIELD LED       | C15 |
 
 
 
