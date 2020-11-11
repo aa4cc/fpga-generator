@@ -1,3 +1,5 @@
+This readme file is intended as a quick user manual. It does not aim to provide a full description of the design and inner workings of the generator, as those are provided in a bachelor thesis available from \[Thesis link to be added once it is made public\].
+
 # Generator of phase-shifted square waves
 
 This repository contains a generator of phase-shifted square waves.
