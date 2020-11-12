@@ -15,16 +15,16 @@ When only 64 outputs are needed, the setup is fairly straightforward:
 
 When more outputs are required, you will need to synchronize several generators. This section assumes that you will be using two to four DE0-Nano boards.
 
-First, you will need to obtain and populate synchronization shield PCBs. Eagle design files for said PCB are available in folder [chaining_shield](chaining_shield). See readme within the folder for details on components.
+First, you will need to obtain and populate the synchronization shield PCBs. Eagle design files for said PCBs are available in folder [chaining_shield](chaining_shield). See readme within the folder for details on components.
 
-Once you have the shields, perform steps 1 to 3 of the previous section for each of your DE0-Nano. Having done that, continue with following steps:
+Once you have the shields, perform steps 1 to 3 of the previous section for each of your DE0-Nanos. Having done that, continue with following steps:
 
 4. On each DE0-Nano, locate the DIP switches. Move switch 0 to the lower position to switch the device into synchronised mode. LED0 should not be blinking - if it is, it signifies that the device is in standalone mode.
 5. Choose one generator to be the master. Dip switch 1 is used to switch between master and slave modes. Move it to the lower position. LED0 should now be ON, signalizing that the device is master.
 6. For all devices apart from the master, move switch 1 to the upper position. Their LED0s should be OFF, signalizing that the devices are in slave mode.
 7. Connect a synchronization shield to each device. Interconnect their coaxial connectors as described in [chaining_shield](chaining_shield) readme.
 8. Connect the synchronization shields by a flat cable.
-9. The devices are set up, you may now set phases and duties of their output channels. See [communication](COMMUNICATION.md) for details. You will likely need to issue a command to synchronize dividers, as will be discussed therein.
+9. The devices are set up, you may now set phases and duties of their output channels. See [communication](COMMUNICATION.md) for details. You will likely need to issue a command to synchronize dividers (a step not needed when operating in standalone mode), as will be discussed therein.
 
 
 ## Going beyond 256 channels

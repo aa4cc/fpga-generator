@@ -1,9 +1,9 @@
-This readme file is intended as a quick user manual. It does not aim to provide a full description of the design and inner workings of the generator, as those are provided in a bachelor thesis available from \[Thesis link to be added once it is made public\].
+This readme file is intended as a quick user manual. It does not aim to deliver a full description of the design and inner workings of the generator, as those are provided in a bachelor thesis available from \[Thesis link to be added once it is made public\].
 
 # Generator of phase-shifted square waves
 
 This repository contains a generator of phase-shifted square waves.
-The generator built upon the De0-Nano developement board and implmeneted as a Quartus II. project.
+The generator is built upon the De0-Nano developement board and implmeneted as a Quartus II. project.
 
 It provides 64 output channels, each with configurable phase shift and duty cycle. The resolution of those parameters is 360 parts per period.
 All outputs share a single frequency, which is also reconfigurable on the fly.
