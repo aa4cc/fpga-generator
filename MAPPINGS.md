@@ -41,8 +41,10 @@ The remaining used pins are
 
 |USE|PIN|
 |------------------|-----|
-| UART IN          | A8  |
-| UART OUT         | D3  |
+| UART IN (chained mode)         | A8  |
+| UART OUT (chained mode)        | D3  |
+| UART IN (standalone mode)         | F15  |
+| UART OUT (standalone mode)        | D15  |
 | CLK OUT 1        | B16 |
 | CLK OUT 2        | D16 |
 | CLK OUT 3        | D14 |
